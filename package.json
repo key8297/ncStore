@@ -1,0 +1,21 @@
+{
+  "name": "ncstore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine",
+    "start": "nodemon --watch app server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express.js": "^1.0.0",
+    "mongoose": "^5.0.15"
+  },
+  "devDependencies": {
+    "jasmine": "^3.1.0",
+    "nodemon": "^1.17.3"
+  }
+}
