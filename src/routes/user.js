@@ -1,24 +1,21 @@
 let UserController = require('./../controllers/user')
 
 module.exports.userApi = (app) => {
+    app.post('/signup', (req, res) => {
+        let controller = new UserController();
+        let q = controller.signup(req.body);
 
-    let controller = new UserController();
-    let q = controller.signup(
-        {
-            name: "dbtester",
-            email: "dbtester@gmail.com",
-            password: "abc12345"
-        });
-
-    q.then((user) => {
-        console.log('user', user);    
+        q.then((user) => {
+            res.send(user);
+        },(error) => res.send(`Error: ${error}`));
     });
 
-    // app.post('/signup', (req, res) => {
+    app.post('/login', (req, res) => {
+        let controller = new UserController();
+        let q = controller.login(req.body.email, req.body.password);
 
-    // });
-
-    // app.post('/login', (req, res) => {
-
-    // });
+        q.then((user) => {
+            res.send(user);
+        },(error) => res.send(`Error: ${error}`));
+    });
 }
