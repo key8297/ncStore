@@ -4,18 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine",
-    "start": "nodemon --watch app server.js"
+        "start": "nodemon --watch app server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
     "express.js": "^1.0.0",
-    "mongoose": "^5.0.15"
+    "mongoose": "^5.0.15",
+    "q": "^1.5.1"
   },
   "devDependencies": {
-    "jasmine": "^3.1.0",
     "nodemon": "^1.17.3"
   }
 }
