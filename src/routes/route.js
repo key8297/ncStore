@@ -1,8 +1,15 @@
-const { userApi } = require('./user');
+const { user } = require('./user');
+const { invoice } = require('./invoice');
+const { order } = require('./order');
+const { category } = require('./category');
+const { item } = require('./item');
 
 const routes = (app) => {
-    userApi(app);
-    
+    user(app);
+    invoice(app);
+    order(app);
+    category(app);
+    item(app);
 }
 
 module.exports = routes; 

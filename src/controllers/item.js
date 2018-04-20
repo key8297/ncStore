@@ -4,7 +4,7 @@ const Item = require('./../models/item');
 
 class ItemController {
 
-    createItem(item) {
+    create(item) {
         let deferred = q.defer();
         Item.findOne({ division: item.division, code: item.code })
             .then(existingItem => {
@@ -20,14 +20,14 @@ class ItemController {
         return deferred.promise;
     }
 
-    retrieveItems(filter) {
+    retrieve(filter) {
         let deferred = q.defer();
         Item.find(filter)
             .then(items => deferred.resolve(items));
         return deferred.promise;
     }
 
-    updateItem(item) {
+    update(item) {
         let deferred = q.defer();
         Item.find({ division: item.division, code: item.code })
             .then(current => {
@@ -43,9 +43,9 @@ class ItemController {
         return deferred.promise;
     }
 
-    deleteItem(code) {
+    delete(division, code) {
         let deferred = q.defer();
-        Item.find({ code })
+        Item.find({ division, code })
             .then(item => {
                 if (!item) {
                     deferred.reject(`[Delete Item] not found. ${code}`);

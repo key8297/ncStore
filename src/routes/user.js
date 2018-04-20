@@ -1,21 +1,15 @@
 let UserController = require('./../controllers/user')
 
-module.exports.userApi = (app) => {
-    app.post('/signup', (req, res) => {
-        let controller = new UserController();
-        let q = controller.signup(req.body);
+module.exports.user = (app) => {
+    let controller = new UserController();
 
-        q.then((user) => {
-            res.send(user);
-        },(error) => res.send(`Error: ${error}`));
+    app.post('/signup', (req, res) => {
+        controller.signup(req.body)
+        .then(user => res.send(user), error => res.send(`Error: ${error}`));
     });
 
     app.post('/login', (req, res) => {
-        let controller = new UserController();
-        let q = controller.login(req.body.email, req.body.password);
-
-        q.then((user) => {
-            res.send(user);
-        },(error) => res.send(`Error: ${error}`));
+        controller.login(req.body.email, req.body.password)
+        .then(user => res.send(user), error => res.send(`Error: ${error}`));
     });
 }

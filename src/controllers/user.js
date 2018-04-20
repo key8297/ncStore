@@ -3,6 +3,7 @@ var q = require('q');
 const User = require('./../models/user');
 
 class UserController{
+
     signup(user){
         let deferred = q.defer();
         User.findOne({email:user.email})
@@ -19,9 +20,9 @@ class UserController{
         return deferred.promise;
     }
 
-    login(email){
+    login(email, password){
         let deferred = q.defer();
-        User.findOne({email})
+        User.findOne({email, password})
         .then((user) => {
             if(user){
                 deferred.resolve(user);

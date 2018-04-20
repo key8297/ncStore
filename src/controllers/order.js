@@ -4,12 +4,12 @@ var NumberRunner = require('./../services/numberRunner');
 
 class OrderController {
 
-    createOrder(newOrder) {
+    create(order) {
         let deferred = q.defer();
 
         NumberRunner.getOrderNumber(newOrder.division)
             .then((orderNumber) => {
-                let order = Object.assign(new Order(), newOrder);
+                let order = Object.assign(new Order(), order);
                 order.save()
                     .then(order => deferred.resolve(order));
             });
@@ -17,7 +17,7 @@ class OrderController {
         return deferred.promise;
     }
 
-    retrieveOrders(filter) {
+    retrieve(filter) {
         let deferred = q.defer();
         Order.find(filter)
             .then(orders => deferred.resolve(orders));
@@ -25,7 +25,7 @@ class OrderController {
         return deferred.promise;
     }
 
-    updateOrder(order) {
+    update(order) {
         let deferred = q.defer();
         Order.find({ orderNumber: order.orderNumber })
             .then(current => {
@@ -47,9 +47,9 @@ class OrderController {
         return deferred.promise;
     }
 
-    deleteOrder(orderNumber) {
+    delete(division, orderNumber) {
         let deferred = q.defer();
-        Order.find({ orderNumber })
+        Order.find({ division, orderNumber })
             .then(orders => {
                 if (!orders) {
                     deferred.reject(`[Delete Order] No record found. ${orderNumber}`);
@@ -59,7 +59,7 @@ class OrderController {
                         .then(() => deferred.reject(`[Delete Order] record deleted. ${orderNumber}`));
                 }
             });
-            
+
         return deferred.promise;
     }
 }

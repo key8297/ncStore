@@ -6,12 +6,12 @@ const NumberRunner = require('./../services/numberRunner');
 
 class InvoiceController {
 
-    createInvoice(newInvoice) {
+    create(invoice) {
         let deferred = q.defer();
         
         NumberRunner.getInvoiceNumber()
         .then((invoiceNumber) => {
-            let invoice = Object.assign(new Invoice(), newInvoice, { invoiceNumber});
+            let invoice = Object.assign(new Invoice(), invoice, { invoiceNumber});
             invoice.save()
                 .then(invoice => deferred.resolve(invoice));
         });
@@ -19,14 +19,14 @@ class InvoiceController {
         return deferred.promise;
     }
 
-    retrieveInvoice(filter) {
+    retrieve(filter) {
         let deferred = q.defer();
         Invoice.find(filter)
             .then(invoices => deferred.resolve(invoices));
         return deferred.promise;
     }
 
-    updateInvoice(invoice) {
+    update(invoice) {
         let deferred = q.defer();
         Invoice.find({ invoiceNumber: invoice.invoiceNumber })
             .then(current => {
@@ -47,7 +47,7 @@ class InvoiceController {
         return deferred.promise;
     }
 
-    createInvoiceFromOrder(orderNumber) {
+    createFromOrder(division, orderNumber) {
         let deferred = q.defer();
         Order.find({ orderNumber })
             .then(order => {
@@ -69,7 +69,7 @@ class InvoiceController {
         return deferred.promise;
     }
 
-    deleteInvoice(invoiceNumber) {
+    delete(division, invoiceNumber) {
         let deferred = q.defer();
         Invoice.find({ invoiceNumber })
             .then(invoice => {

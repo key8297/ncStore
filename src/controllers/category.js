@@ -5,7 +5,7 @@ const Item = require('./../models/item');
 
 class CategoryController {
 
-    createCategory(category) {
+    create(category) {
         let deferred = q.defer();
         Category.findOne({ division: category.division, id: category.id })
             .then(existingCategory => {
@@ -21,7 +21,7 @@ class CategoryController {
         return deferred.promise;
     }
 
-    retrieveCategory(filter) {
+    retrieve(filter) {
         let deferred = q.defer();
         Category.find(filter)
             .then(categories => {
@@ -30,7 +30,7 @@ class CategoryController {
         return deferred.promise;
     }
 
-    updateCategory(category) {
+    update(category) {
         let deferred = q.defer();
         Category.find({ division: category.division, id: category.id })
             .then(current => {
@@ -48,7 +48,7 @@ class CategoryController {
         return deferred.promise;
     }
 
-    deleteCategory(code, includeItem = 1) {
+    delete(division, code, includeItem = 1) {
         let deferred = q.defer();
         Category.find({ code })
             .then(category => {
