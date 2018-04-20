@@ -7,6 +7,7 @@ var divisionSchema = new Schema({
     id: Number,
     code: String,
     contact: String,
+    collaborators:[],
     status: String,
     address: String
 });

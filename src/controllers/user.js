@@ -4,34 +4,34 @@ const User = require('./../models/user');
 
 class UserController{
     signup(user){
-        let deffered = q.defer();
+        let deferred = q.defer();
         User.findOne({email:user.email})
         .then((existinguser) => {
             if(existinguser){
-                deffered.reject("Record already exists.");
+                deferred.reject("Record already exists.");
             }
             else{
                 let data = Object.assign(new User(), user);
                 data.save()
-                .then((user) => deffered.resolve(user));
+                .then((user) => deferred.resolve(user));
             }
         });
-        return deffered.promise;
+        return deferred.promise;
     }
 
     login(email){
-        let deffered = q.defer();
+        let deferred = q.defer();
         User.findOne({email})
         .then((user) => {
             if(user){
-                deffered.resolve(user);
+                deferred.resolve(user);
             }
             else {
-                deffered.reject(`${email} : user not found.`);
+                deferred.reject(`${email} : user not found.`);
             }
         });
         
-        return deffered.promise;
+        return deferred.promise;
     }
 }
 

@@ -7,7 +7,7 @@ var itemSchema = new Schema({
     code: String,
     division: Number,
     description: String,
-    category: String,
+    category: Number,
     price: Number,
     status: String,
     imageUrl: String
