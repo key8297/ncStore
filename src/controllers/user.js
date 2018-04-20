@@ -4,7 +4,7 @@ const User = require('./../models/user');
 
 class UserController{
     signup(user){
-        var deffered = q.defer();
+        let deffered = q.defer();
         User.findOne({email:user.email})
         .then((existinguser) => {
             if(existinguser){
@@ -20,7 +20,7 @@ class UserController{
     }
 
     login(email){
-        var deffered = q.defer();
+        let deffered = q.defer();
         User.findOne({email})
         .then((user) => {
             if(user){
