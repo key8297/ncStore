@@ -6,7 +6,6 @@ const Invoice = require('./../models/invoice');
 class InvoiceController {
 
     getInvoiceNumber() {
-        return 111;
     }
 
     createInvoice(newInvoice) {
@@ -14,7 +13,7 @@ class InvoiceController {
         Invoice.find({ invoiceNumber: newInvoice.invoiceNumber })
             .then(exists => {
                 if (exists) {
-                    deffered.reject("Record already exists.");
+                    deffered.reject(`[Create Invoice] Record already exists. ${newInvoice.invoiceNumber}`);
                 }
                 else {
                     let invoice = Object.assign(new Invoice(), newInvoice, { invoiceNumber: getInvoiceNumber });
@@ -29,14 +28,14 @@ class InvoiceController {
 
     updateInvoice(invoice) {
         let deffered = q.defer();
-        Invoice.find({invoiceNumber : invoice.OrderNumber})
+        Invoice.find({invoiceNumber : invoice.invoiceNumber})
         .then(current => {
             if(!current){
-                deffered.reject("Record not found.");
+                deffered.reject(`[Update Invoice] Record not found. ${invoice.invoiceNumber}`);
             }
             else{
                 if(current.status == 'Completed' || current.status == 'Comfirmed'){
-                    deffered.reject(`Order ${current.status}`);
+                    deffered.reject(`[Update Invoice] Confirmed/Completed. ${invoice.invoiceNumber}`);
                 }
                 else{
                     let invoice = Object.assign(current, invoice);
@@ -55,10 +54,10 @@ class InvoiceController {
         Order.find({ orderNumber })
             .then(order => {
                 if (!order) {
-                    deferred.reject("Order not found.");
+                    deffered.reject(`[Create Invoice From Order] (order not found) ${orderNumber}`);
                 }
                 else if (order.status == "Completed") {
-                    deferred.reject(`Order in status: ${order.status} can not be invoice.`);
+                    deffered.reject(`[Create Invoice From Order] (order completed) ${orderNumber}`);
                 }
                 else if (order.status == "Open" || order.status == "Confirmed") {
                     let invoice = Object.assign(new Invoice(), orderNumber, { invoiceNumber: this.getInvoiceNumber() });
@@ -77,20 +76,17 @@ class InvoiceController {
         Invoice.find({invoiceNumber})
         .then(invoice => {
             if(!invoice){
-                deffered.reject("No record found.");
+                deffered.reject( `[Delete Invoice] not found. ${invoiceNumber}`); 
             }
             else{
                 //UI should block this
-                if(invoice.status != 'Completed'){
-                    //deffered.reject(`Invoice ${current.status} can not be delete.`);
+                if(invoice.status != 'Completed' || invoice.status != 'Confirmed'){
+                    deffered.reject( `[Delete Invoice] Completed/Confirmed. ${invoiceNumber}`);                    
                 }
-                else if(invoice.status != 'Confirmed'){
-                    //
-                    //deffered.reject(`Invoice ${current.status} can not be delete.`);
-                }
+
                 invoice.delete()
                 .then(() => {
-                    deffered.resolve(`Invoice ${current.status} can not be delete.`);
+                    deffered.resolve(`[Delete Invoice] succeed. ${current.status}`);
                 })
             }
         });

@@ -4,12 +4,17 @@ const InvoiceController = require('./../controllers/invoice');
 // const Invoice = require('./../models/invoice');
 
 class OrderController{
+
+    getOrderNumber(){
+        
+    }
+
     createOrder(newOrder){
         let deffered = q.defer();
-        Order.find({orderNumber : newOrder.OrderNumber})
+        Order.find({orderNumber : newOrder.orderNumber})
         .then(exists => {
             if(exists){
-                deffered.reject("Record already exists.");
+                deffered.reject("[Create Oder] already exists.");
             }
             else{
                 let order = Object.assign(new Order(), newOrder);
@@ -24,15 +29,14 @@ class OrderController{
 
     updateOrder(order){
         let deffered = q.defer();
-        Order.find({orderNumber : order.OrderNumber})
+        Order.find({orderNumber : order.orderNumber})
         .then(current => {
             if(!current){
-                deffered.reject("Record not found.");
+                deffered.reject("[Update Order] Record not found.");
             }
             else{
-                //UI should block this
                 if(current.status == 'Completed' || current.status == 'Comfirmed'){
-                    //deffered.reject(`Order ${current.status} can not be delete.`);
+                    deffered.reject(`[Update Order] completed/confirmed. ${order.orderNumber}`);
                 }
                 else{
                     let order = Object.assign(current, order);
@@ -51,7 +55,7 @@ class OrderController{
         Order.find(filter)
         .then(orders => {
             if(!orders){
-                deffered.reject("No record found.");
+                deffered.reject("[Retrieve Orders] No record found.");
             }
             else{
                 deffered.resolve(orders);
@@ -65,12 +69,12 @@ class OrderController{
         Order.find({orderNumber})
         .then(orders => {
             if(!orders){
-                deffered.reject("No record found.");
+                deffered.reject(`[Delete Order] No record found. ${orderNumber}`);
             }
             else{
                 order.delete()
                 .then(() => {
-                    deffered.resolve(`Order: {} removed.`);
+                    deffered.reject(`[Delete Order] record deleted. ${orderNumber}`);
                 })
             }
         });

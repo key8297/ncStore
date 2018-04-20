@@ -3,8 +3,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var itemSchema = new Schema({
+var itemSchema = new Schema({    
     code: String,
+    division: Number,
     description: String,
     category: String,
     price: Number,
