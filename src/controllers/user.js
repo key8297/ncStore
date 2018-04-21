@@ -28,7 +28,7 @@ class UserController{
                 deferred.resolve(user);
             }
             else {
-                deferred.reject(`${email} : user not found.`);
+                deferred.reject(`${email} : Invalid user or password.`);
             }
         });
         

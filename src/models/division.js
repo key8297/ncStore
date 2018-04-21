@@ -9,7 +9,9 @@ var divisionSchema = new Schema({
     contact: String,
     collaborators:[],
     status: String,
-    address: String
+    address: String,
+    email: String,
+    phone: String
 });
 
 var Division = mongoose.model('Division', divisionSchema);
