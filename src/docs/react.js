@@ -53,12 +53,12 @@ class Signup extends React.Component {
     }
 
     signup() {
-        return axios.post('http://localhost:8000/signup',
+        return axios.post('/signup',
             this.state.user);
     }
 
     registerDivision() {
-        return axios.post('http://localhost:8000/newdivision',
+        return axios.post('/newdivision',
             {
                 code: "Avengers",
                 contact: "spiderman@gmail.com"
@@ -69,7 +69,7 @@ class Signup extends React.Component {
         this.login()
             .then(user => {
                 console.log(user.data);
-                axios.post('http://localhost:8000/division',
+                axios.post('/division',
                     {
                         id: user.data.mainDivision
                     })
@@ -80,7 +80,7 @@ class Signup extends React.Component {
     }
 
     login() {
-        return axios.post('http://localhost:8000/login',
+        return axios.post('/login',
             {
                 email: this.state.user.email,
                 password: this.state.user.password
@@ -97,7 +97,7 @@ class Signup extends React.Component {
             image: ""
         }
 
-        return axios.post('http://localhost:8000/category/create', category);
+        return axios.post('/category/create', category);
     }
 
     getCategory() {
@@ -105,7 +105,7 @@ class Signup extends React.Component {
             division: this.state.division._id,
         }
 
-        return axios.post('http://localhost:8000/category/search', category);
+        return axios.post('/category/search', category);
     }
 
     deleteCategory() {
@@ -113,7 +113,7 @@ class Signup extends React.Component {
             division: this.state.division._id
         }
 
-        return axios.post('http://localhost:8000/category/delete', category);
+        return axios.post('/category/delete', category);
     }
 
     retrieveCategory() {
@@ -122,7 +122,7 @@ class Signup extends React.Component {
             code: "Cat1"
         }
 
-        return axios.post('http://localhost:8000/category/search', category);
+        return axios.post('/category/search', category);
     }
 
     addItem() {
@@ -131,7 +131,7 @@ class Signup extends React.Component {
             code: "Cat1"
         }
 
-        axios.post('http://localhost:8000/category/search', category)
+        axios.post('/category/search', category)
             .then(categories => {
                 let category = categories.data[0];
                 let item = {
@@ -143,7 +143,7 @@ class Signup extends React.Component {
                     satus: "Active"
                 }
 
-                axios.post('http://localhost:8000/item/create', item)
+                axios.post('/item/create', item)
                     .then((res) =>
                         this.setState({item:res.data})
                     )
@@ -158,7 +158,7 @@ class Signup extends React.Component {
             division: this.state.division._id,
         }
 
-        return axios.post('http://localhost:8000/item/search', item);
+        return axios.post('/item/search', item);
     }
 
     updateItem(){
@@ -167,12 +167,12 @@ class Signup extends React.Component {
             code: "Item1"
         }
 
-        axios.post('http://localhost:8000/item/search', item)
+        axios.post('/item/search', item)
         .then(item => {
             if(item.data.length >= 0){
                 let data = item.data[0];
                 data.code = "Item2"
-                axios.post('http://localhost:8000/item/update', data)
+                axios.post('/item/update', data)
                 .then(item => {
                     console.log(item);
                     this.setState({item: item});
@@ -188,11 +188,11 @@ class Signup extends React.Component {
             code: "Item1"
         }
 
-        axios.post('http://localhost:8000/item/search', item)
+        axios.post('/item/search', item)
         .then(item => {
             if(item.data.length >= 0){
                 let data = item.data[0];
-                axios.post('http://localhost:8000/item/delete', data)
+                axios.post('/item/delete', data)
                 .then(message => {
                     console.log(message.data);
                     this.setState({item: {}});
