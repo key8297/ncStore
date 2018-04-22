@@ -29,29 +29,31 @@ class ItemController {
 
     update(item) {
         let deferred = q.defer();
-        Item.find({ division: item.division, code: item.code })
+        Item.findOne({ division: item.division, _id: item._id })
             .then(current => {
                 if (!current) {
                     deferred.reject(`[Update Item] Record not found. ${item.code}`);
                 }
                 else {
-                    let item = Object.assign(current, item);
-                    item.save()
+                    delete item._id;
+                    let data = Object.assign(current, item);
+                    data.save()
                         .then(item => deferred.resolve(item));
                 }
             });
         return deferred.promise;
     }
 
-    delete(division, code) {
+    delete(item) {
         let deferred = q.defer();
-        Item.find({ division, code })
+        let code = item.code;
+        Item.findOne({ division: item.division, _id: item._id })
             .then(item => {
                 if (!item) {
                     deferred.reject(`[Delete Item] not found. ${code}`);
                 }
                 else {
-                    item.remove()
+                    Item.remove(item)
                         .then(() => deferred.resolve(`[Delete item] succeed. ${code}`))
                 }
             });

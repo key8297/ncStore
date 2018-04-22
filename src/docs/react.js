@@ -41,7 +41,10 @@ class Signup extends React.Component {
                 password: 'password123'
             },
             division: {
-                code:""
+                code: ""
+            },
+            item: {
+                code: ""
             }
         }
         this.signup = this.signup.bind(this);
@@ -62,18 +65,18 @@ class Signup extends React.Component {
             });
     }
 
-    getDivision(){
+    getDivision() {
         this.login()
-        .then(user => { 
-            console.log(user.data);
-            axios.post('http://localhost:8000/division',
-            {
-                id: user.data.mainDivision
-            })
-            .then(division => {
-                this.setState({division:division.data})
-            });            
-        });
+            .then(user => {
+                console.log(user.data);
+                axios.post('http://localhost:8000/division',
+                    {
+                        id: user.data.mainDivision
+                    })
+                    .then(division => {
+                        this.setState({ division: division.data })
+                    });
+            });
     }
 
     login() {
@@ -84,20 +87,20 @@ class Signup extends React.Component {
             });
     }
 
-    addCategory(){
+    addCategory() {
         let category = {
             division: this.state.division._id,
             code: "Cat1",
             description: "First category",
             status: "Active",
             imageUrl: "",
-            image:""
+            image: ""
         }
 
         return axios.post('http://localhost:8000/category/create', category);
     }
 
-    getCategory(){
+    getCategory() {
         let category = {
             division: this.state.division._id,
         }
@@ -105,13 +108,97 @@ class Signup extends React.Component {
         return axios.post('http://localhost:8000/category/search', category);
     }
 
-    deleteCategory(){
+    deleteCategory() {
+        let category = {
+            division: this.state.division._id
+        }
+
+        return axios.post('http://localhost:8000/category/delete', category);
+    }
+
+    retrieveCategory() {
         let category = {
             division: this.state.division._id,
             code: "Cat1"
         }
 
-        return axios.post('http://localhost:8000/category/delete', category);
+        return axios.post('http://localhost:8000/category/search', category);
+    }
+
+    addItem() {
+        let category = {
+            division: this.state.division._id,
+            code: "Cat1"
+        }
+
+        axios.post('http://localhost:8000/category/search', category)
+            .then(categories => {
+                let category = categories.data[0];
+                let item = {
+                    division: this.state.division._id,
+                    description: "First item",
+                    code: "Item1",
+                    category: category._id,
+                    price: 300,
+                    satus: "Active"
+                }
+
+                axios.post('http://localhost:8000/item/create', item)
+                    .then((res) =>
+                        this.setState({item:res.data})
+                    )
+                    .catch(err =>{
+                        this.setState({item: {code:err.request.responseText}})
+                    });
+            })
+    }
+
+    retrieveItem() {
+        let item = {
+            division: this.state.division._id,
+        }
+
+        return axios.post('http://localhost:8000/item/search', item);
+    }
+
+    updateItem(){
+        let item = {
+            division: this.state.division._id,
+            code: "Item1"
+        }
+
+        axios.post('http://localhost:8000/item/search', item)
+        .then(item => {
+            if(item.data.length >= 0){
+                let data = item.data[0];
+                data.code = "Item2"
+                axios.post('http://localhost:8000/item/update', data)
+                .then(item => {
+                    console.log(item);
+                    this.setState({item: item});
+                });
+            }
+        });
+        
+    }
+
+    deleteItem() {
+        let item = {
+            division: this.state.division._id,
+            code: "Item1"
+        }
+
+        axios.post('http://localhost:8000/item/search', item)
+        .then(item => {
+            if(item.data.length >= 0){
+                let data = item.data[0];
+                axios.post('http://localhost:8000/item/delete', data)
+                .then(message => {
+                    console.log(message.data);
+                    this.setState({item: {}});
+                });
+            }
+        });
     }
 
     render() {
@@ -131,7 +218,19 @@ class Signup extends React.Component {
                 <Button func={() => this.addCategory()} caption='New category' />
                 <Button func={() => this.getCategory()} caption='Get category' />
                 <Button func={() => this.deleteCategory()} caption='Delete category' />
-                
+                <Button func={() => this.retrieveCategory()} caption='Retrieve category' />
+                <div>
+                    <button onClick={() => this.addItem()}  >Add Item</button>
+                    <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.item.code} />
+                </div>
+                <div>
+                    <button onClick={() => this.updateItem()}  >Update Item</button>
+                    <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.item.code} />
+                </div>                <div>
+                    <button onClick={() => this.deleteItem()}  >Delete Item</button>
+                    <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.item.code} />
+                </div>
+                <Button func={() => this.retrieveItem()} caption='Retrieve item' />
             </div>
         );
     }

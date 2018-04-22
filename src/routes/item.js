@@ -6,21 +6,35 @@ module.exports.item = (app) => {
 
     app.post('/item/create', (req, res) => {
         controller.create(req.body)
-            .then(item => res.send(item), error => res.send(`Error: ${error}`));
+            .then(item => {
+                console.log(item);
+                res.send(item);
+            })
+            .catch(error =>{
+                console.log(error);
+                res.status(701).send(`Error: ${error}`)
+            });
     });
 
     app.post('/item/search', (req, res) => {
         controller.retrieve(req.body)
-            .then(categories => res.send(categories), error => res.send(`Error: ${error}`));
+            .then(items => res.send(items))
+            .catch(error => res.status(701).send(`Error: ${error}`));
     });
 
     app.post('/item/update', (req, res) => {
         controller.update(req.body)
-            .then(item => res.send(item), error => res.send(`Error: ${error}`));
+            .then(item => res.send(item))
+            .catch(error => res.status(701).send(`Error: ${error}`));
     });
 
     app.post('/item/delete', (req, res) => {
-        controller.delete(req.body.division, req.body.code)
-            .then(success => res.send(success), error => res.send(`Error: ${error}`));
+        controller.delete(req.body)
+        .then(success => {
+            res.send(success);          
+        })
+        .catch(error => {
+            res.status(701).send(`Error: ${error}`);
+        });
     });
 }
