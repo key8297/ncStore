@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var invoiceSchema = new Schema({
-    division: Number,
+    division: mongoose.Schema.Types.ObjectId,
     invoiceNumber: String,
     orderNumber: String,
     name: String,

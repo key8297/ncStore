@@ -4,8 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var categorySchema = new Schema({
-  id: Number,
-  division: Number,
+  division: mongoose.Schema.Types.ObjectId,
   code: String,
   description: String,
   status: String,

@@ -5,9 +5,9 @@ var Schema = mongoose.Schema;
 
 var itemSchema = new Schema({    
     code: String,
-    division: Number,
+    division: mongoose.Schema.Types.ObjectId,
     description: String,
-    category: Number,
+    category: mongoose.Schema.Types.ObjectId,
     price: Number,
     status: String,
     imageUrl: String

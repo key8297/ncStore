@@ -4,10 +4,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var divisionSchema = new Schema({
-    id: Number,
     code: String,
     contact: String,
-    collaborators:[],
+    collaborators:[{email:String}],
     status: String,
     address: String,
     email: String,

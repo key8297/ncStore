@@ -7,7 +7,7 @@ class CategoryController {
 
     create(category) {
         let deferred = q.defer();
-        Category.findOne({ division: category.division, id: category.id })
+        Category.findOne({ division: category.division, code: category.code })
             .then(existingCategory => {
                 if (existingCategory) {
                     deferred.reject(`[Create Category] already exists.`);
@@ -32,7 +32,7 @@ class CategoryController {
 
     update(category) {
         let deferred = q.defer();
-        Category.find({ division: category.division, id: category.id })
+        Category.findOne({ division: category.division, id: category.id })
             .then(current => {
                 if (!current) {
                     deferred.reject(`[Update Category] Record not found. ${category.code}`);
@@ -50,7 +50,8 @@ class CategoryController {
 
     delete(division, code, includeItem = 1) {
         let deferred = q.defer();
-        Category.find({ code })
+        
+        Category.findOne({ division, code })
             .then(category => {
                 if (!category) {
                     deferred.reject(`[Delete Category] not found. ${invoiceNumber}`);
@@ -58,10 +59,10 @@ class CategoryController {
                 else {
                     Item.find({ division: category.division, category: category.id })
                         .then(items => {
-                            if (items && !includeItem) {
+                            if (items.length > 0 && !includeItem) {
                                 deferred.reject(`[Delete Category] linked to items. ${code}`);
                             }
-                            else if (items && includeItem) {
+                            else if (items.length > 0 && includeItem) {
                                 Item.remove(items)
                                     .then(() => {
                                         category.remove()
@@ -70,7 +71,7 @@ class CategoryController {
                                             })
                                     })
                             }
-                            else if (!items) {
+                            else{
                                 category.remove()
                                     .then(() => {
                                         deferred.resolve(`[Delete Category] succeed. ${code}`);

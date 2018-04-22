@@ -21,24 +21,37 @@ class DivisionController {
     create(division) {
         let deferred = q.defer();
 
-        getNewDivisionNumber()
-            .then(newId => {
-                let data = Object.assign(new Division(), division);
-                data.id = newId;
-                data.save()
-                .then(division => {
-                    User.findOne({email:division.contact})
-                    .then(user => {
-                        if(user && !user.mainDivision){
-                            user.mainDivision = newId;                            
-                        }
-                        user.divisions.push(newId);
-                        user.save();
-                    })
-
-                    deferred.resolve(division);
-                });
+        let data = Object.assign(new Division(), division);
+        data.save()
+        .then(division => {
+            User.findOne({email:division.contact})
+            .then(user => {
+                if(user && !user.mainDivision){
+                    user.mainDivision = division._id;                            
+                }
+                user.divisions.push(division._id);
+                user.save();
             })
+
+            deferred.resolve(division);
+        });
+
+        return deferred.promise;
+    }
+
+    retrieve(id){
+        let deferred = q.defer();
+        console.log(`[Retrieve Division] --  ${id}`);
+
+        Division.findOne({ _id :id })
+            .then((division) => {
+                if (!division) {
+                    deferred.reject(`[Retrieve Division] not found. ${id}`);
+                }
+                else {
+                    deferred.resolve(division);
+                }
+            });
 
         return deferred.promise;
     }
@@ -46,7 +59,7 @@ class DivisionController {
     remove(id) {
         let deferred = q.defer();
 
-        division.findOne({ id })
+        Division.findOne({ id })
             .then((division) => {
                 if (!division) {
                     deferred.reject(`[Delete Division] not found. ${id}`);

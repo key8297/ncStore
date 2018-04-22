@@ -3,11 +3,13 @@ const { invoice } = require('./invoice');
 const { order } = require('./order');
 const { category } = require('./category');
 const { item } = require('./item');
-//const { docs } = require('./docs');
 const { division } = require('./division');
+const { validation } = require('./validation');
+
 
 const routes = (app) => {
-//   docs(app);
+
+    validation(app);
     user(app);
     invoice(app);
     order(app);
