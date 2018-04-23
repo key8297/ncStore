@@ -9,7 +9,7 @@ class OrderController {
 
         NumberRunner.getOrderNumber(newOrder.division)
             .then((orderNumber) => {
-                let order = Object.assign(new Order(), order);
+                let order = Object.assign(new Order(), order, {orderNumber});
                 order.save()
                     .then(order => deferred.resolve(order));
             });
@@ -37,8 +37,9 @@ class OrderController {
                         deferred.reject(`[Update Order] completed/confirmed. ${order.orderNumber}`);
                     }
                     else {
-                        let order = Object.assign(current, order);
-                        order.save()
+                        delete order._id;
+                        let data = Object.assign(current, order);
+                        data.save()
                             .then(order => deferred.resolve(order));
                     }
                 }
@@ -47,9 +48,9 @@ class OrderController {
         return deferred.promise;
     }
 
-    delete(division, orderNumber) {
+    delete(order) {
         let deferred = q.defer();
-        Order.find({ division, orderNumber })
+        Order.findOne({ division: order.division, _id: order._id })
             .then(orders => {
                 if (!orders) {
                     deferred.reject(`[Delete Order] No record found. ${orderNumber}`);

@@ -45,7 +45,8 @@ class Signup extends React.Component {
             },
             item: {
                 code: ""
-            }
+            },
+            selectedFile: {}
         }
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
@@ -201,6 +202,14 @@ class Signup extends React.Component {
         });
     }
 
+    fileChangedHandler(event){
+        this.setState({selectedFile: event.target.files[0]})
+    }
+
+    uploadHandler(){
+        console.log(this.state.selectedFile)
+    }
+
     render() {
         let data = this.state.data;
 
@@ -231,6 +240,10 @@ class Signup extends React.Component {
                     <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.item.code} />
                 </div>
                 <Button func={() => this.retrieveItem()} caption='Retrieve item' />
+                <div>
+                    <input type="file" onChange={this.fileChangedHandler} />
+                    <button onClick={this.uploadHandler}>Upload!</button>
+                </div>
             </div>
         );
     }

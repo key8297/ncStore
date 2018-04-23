@@ -8,13 +8,13 @@ class InvoiceController {
 
     create(invoice) {
         let deferred = q.defer();
-        
+
         NumberRunner.getInvoiceNumber()
-        .then((invoiceNumber) => {
-            let invoice = Object.assign(new Invoice(), invoice, { invoiceNumber});
-            invoice.save()
-                .then(invoice => deferred.resolve(invoice));
-        });
+            .then((invoiceNumber) => {
+                let invoice = Object.assign(new Invoice(), invoice, { invoiceNumber });
+                invoice.save()
+                    .then(invoice => deferred.resolve(invoice));
+            });
 
         return deferred.promise;
     }
@@ -28,7 +28,7 @@ class InvoiceController {
 
     update(invoice) {
         let deferred = q.defer();
-        Invoice.find({ invoiceNumber: invoice.invoiceNumber })
+        Invoice.findOne({ division: invoice.division, _id: invoice._id })
             .then(current => {
                 if (!current) {
                     deferred.reject(`[Update Invoice] Record not found. ${invoice.invoiceNumber}`);
@@ -38,8 +38,9 @@ class InvoiceController {
                         deferred.reject(`[Update Invoice] Confirmed/Completed. ${invoice.invoiceNumber}`);
                     }
                     else {
-                        let invoice = Object.assign(current, invoice);
-                        invoice.save()
+                        delete invoice._id;
+                        let data = Object.assign(current, invoice);
+                        data.save()
                             .then(invoice => deferred.resolve(invoice));
                     }
                 }
@@ -49,7 +50,7 @@ class InvoiceController {
 
     createFromOrder(division, orderNumber) {
         let deferred = q.defer();
-        Order.find({ orderNumber })
+        Order.findOne({ division, orderNumber })
             .then(order => {
                 if (!order) {
                     deferred.reject(`[Create Invoice From Order] (order not found) ${orderNumber}`);
@@ -58,31 +59,30 @@ class InvoiceController {
                     deferred.reject(`[Create Invoice From Order] (order completed) ${orderNumber}`);
                 }
                 else if (order.status == "Open" || order.status == "Confirmed") {
-                    let invoice = Object.assign(new Invoice(), order, { invoiceNumber: this.getInvoiceNumber() });
                     NumberRunner.getInvoiceNumber()
-                        .then((invoiceNumber) => {
-                            invoice.save()
-                                .then(invoice => deferred.resolve(invoice))
-                        });
+                    .then(invoiceNumber => {
+                        let invoice = Object.assign(new Invoice(), order, { invoiceNumber });
+                        invoice.save()
+                        .then(invoice => deferred.resolve(invoice))
+                    });                    
                 }
             });
         return deferred.promise;
     }
 
-    delete(division, invoiceNumber) {
+    delete(invoice) {
         let deferred = q.defer();
-        Invoice.find({ invoiceNumber })
+        Invoice.findOne({ division: invoice.division, _id: invoice._id })
             .then(invoice => {
                 if (!invoice) {
                     deferred.reject(`[Delete Invoice] not found. ${invoiceNumber}`);
                 }
                 else {
-                    //UI should block this
                     if (invoice.status != 'Completed' || invoice.status != 'Confirmed') {
                         deferred.reject(`[Delete Invoice] Completed/Confirmed. ${invoiceNumber}`);
                     }
                     else {
-                        invoice.remove()
+                        Invoice.remove(invoice)
                             .then(() => deferred.resolve(`[Delete Invoice] succeed. ${invoiceNumber}`));
                     }
                 }

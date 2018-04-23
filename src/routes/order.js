@@ -6,21 +6,47 @@ module.exports.order = (app) => {
 
     app.post('/order/create', (req, res) => {
         controller.create(req.body)
-            .then(order => res.send(order), error => res.send(`Error: ${error}`));
+        .then(order => {
+            console.log(order);
+            res.send(order);
+        })
+        .catch(error =>{
+            console.log(error);
+            res.status(701).send(`Error: ${error}`)
+        });
     });
 
     app.post('/order/search', (req, res) => {
         controller.retrieve(req.body)
-            .then(categories => res.send(categories), error => res.send(`Error: ${error}`));
+        .then(orders => {
+            console.log(orders);
+            res.send(orders);
+        })
+        .catch(error =>{
+            console.log(error);
+            res.status(701).send(`Error: ${error}`)
+        });
     });
 
     app.post('/order/update', (req, res) => {
         controller.update(req.body)
-            .then(order => res.send(order), error => res.send(`Error: ${error}`));
+        .then(order => {
+            console.log(order);
+            res.send(order);
+        })
+        .catch(error =>{
+            console.log(error);
+            res.status(701).send(`Error: ${error}`)
+        });
     });
 
     app.post('/order/delete', (req, res) => {
         controller.delete(req.body.division, req.body.orderNumber)
-            .then(success => res.send(success), error => res.send(`Error: ${error}`));
+        .then(success => {
+            res.send(success);          
+        })
+        .catch(error => {
+            res.status(701).send(`Error: ${error}`);
+        });
     });
 }
