@@ -146,10 +146,10 @@ class Signup extends React.Component {
 
                 axios.post('/item/create', item)
                     .then((res) =>
-                        this.setState({item:res.data})
+                        this.setState({ item: res.data })
                     )
-                    .catch(err =>{
-                        this.setState({item: {code:err.request.responseText}})
+                    .catch(err => {
+                        this.setState({ item: { code: err.request.responseText } })
                     });
             })
     }
@@ -162,25 +162,25 @@ class Signup extends React.Component {
         return axios.post('/item/search', item);
     }
 
-    updateItem(){
+    updateItem() {
         let item = {
             division: this.state.division._id,
             code: "Item1"
         }
 
         axios.post('/item/search', item)
-        .then(item => {
-            if(item.data.length >= 0){
-                let data = item.data[0];
-                data.code = "Item2"
-                axios.post('/item/update', data)
-                .then(item => {
-                    console.log(item);
-                    this.setState({item: item});
-                });
-            }
-        });
-        
+            .then(item => {
+                if (item.data.length >= 0) {
+                    let data = item.data[0];
+                    data.code = "Item2"
+                    axios.post('/item/update', data)
+                        .then(item => {
+                            console.log(item);
+                            this.setState({ item: item });
+                        });
+                }
+            });
+
     }
 
     deleteItem() {
@@ -190,25 +190,43 @@ class Signup extends React.Component {
         }
 
         axios.post('/item/search', item)
-        .then(item => {
-            if(item.data.length >= 0){
-                let data = item.data[0];
-                axios.post('/item/delete', data)
-                .then(message => {
-                    console.log(message.data);
-                    this.setState({item: {}});
-                });
-            }
+            .then(item => {
+                if (item.data.length >= 0) {
+                    let data = item.data[0];
+                    axios.post('/item/delete', data)
+                        .then(message => {
+                            console.log(message.data);
+                            this.setState({ item: {} });
+                        });
+                }
+            });
+    }
+
+    handleUploadImage(ev) {
+
+        const data = new FormData();
+        data.append('data', this.uploadInput.files[0]);
+        data.append('name', this.fileName.value);
+
+        fetch('http://localhost:8000/upload', {
+            method: 'POST',
+            body: data,
+        }).then((response) => {
+            response.json().then((body) => {
+                this.setState({ imageURL: `http://localhost:8000/${body.file}` });
+            });
         });
+
+        // axios.post('http://localhost:8000/upload', {
+        //     body: data
+        // }).then((response) => {
+        //     response.json().then((body) => {
+        //         this.setState({ imageURL: `http://localhost:8000/${body.file}` });
+        //     });
+        // });
     }
 
-    fileChangedHandler(event){
-        this.setState({selectedFile: event.target.files[0]})
-    }
 
-    uploadHandler(){
-        console.log(this.state.selectedFile)
-    }
 
     render() {
         let data = this.state.data;
@@ -241,8 +259,11 @@ class Signup extends React.Component {
                 </div>
                 <Button func={() => this.retrieveItem()} caption='Retrieve item' />
                 <div>
-                    <input type="file" onChange={this.fileChangedHandler} />
-                    <button onClick={this.uploadHandler}>Upload!</button>
+                    <form onSubmit={() => this.handleUploadImage()}>
+                        <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                        <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
+                        <button >Upload</button>
+                    </form>
                 </div>
             </div>
         );

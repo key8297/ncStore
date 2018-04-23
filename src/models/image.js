@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 
 var imageSchema = new Schema({
     data: Buffer,
-    contentType: String
+    contentType: String,
+    name: String
 });
 
 var Image = mongoose.model('Image', imageSchema);
