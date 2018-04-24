@@ -8,7 +8,10 @@ var categorySchema = new Schema({
   code: String,
   description: String,
   status: String,
-  imageUrl: String
+  thumnail: Buffer,
+  thumnailName: String,
+  largePhoto: Buffer,
+  largePhotoName: String
 });
 
 var Category = mongoose.model('Category', categorySchema);
