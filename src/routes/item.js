@@ -1,5 +1,6 @@
 'use strict';
 let ItemController = require('./../controllers/item')
+const ObjectID = require('mongodb').ObjectID;
 
 module.exports.item = (app) => {
     let controller = new ItemController();
@@ -17,9 +18,17 @@ module.exports.item = (app) => {
     });
 
     app.post('/item/search', (req, res) => {
-        controller.retrieve(req.body)
-            .then(items => res.send(items))
-            .catch(error => res.status(701).send(`Error: ${error}`));
+        let param = req.body;
+        param.division = new ObjectID(param.division);
+
+        controller.retrieve(param)
+            .then(items => 
+                res.send(items)
+            )
+            .catch(
+                error => 
+                res.status(701).send(`Error: ${error}`)
+            );
     });
 
     app.post('/item/update', (req, res) => {

@@ -46,11 +46,13 @@ class Signup extends React.Component {
             item: {
                 code: ""
             },
-            selectedFile: {}
+            selectedFile: {},
+            items: []
         }
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
         this.getDivision = this.getDivision.bind(this);
+        this.retrieveItem = this.retrieveItem.bind(this);
     }
 
     signup() {
@@ -154,13 +156,13 @@ class Signup extends React.Component {
             })
     }
 
-    retrieveItem() {
-        let item = {
-            division: this.state.division._id,
-        }
+    // retrieveItem() {
+    //     let item = {
+    //         division: this.state.division._id,
+    //     }
 
-        return axios.post('/item/search', item);
-    }
+    //     return axios.post('/item/search', item);
+    // }
 
     updateItem() {
         let item = {
@@ -226,7 +228,22 @@ class Signup extends React.Component {
         // });
     }
 
+    retrieveItem(){
+        let body = {division: this.state.division._id, code:"SO-B909-M"}; 
+        axios.post('http://localhost:8000/item/search', body)
+        .then((response) => {
+            let items = response.data;
+            let collection = [];
 
+            items.map(x => {
+                console.log(x);
+                collection.push(<tr><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/png;base64," + x.thumnail.data}   /></td></tr>)
+            });
+
+            this.setState({items : collection});
+        });
+        
+    }
 
     render() {
         let data = this.state.data;
@@ -257,7 +274,15 @@ class Signup extends React.Component {
                     <button onClick={() => this.deleteItem()}  >Delete Item</button>
                     <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.item.code} />
                 </div>
-                <Button func={() => this.retrieveItem()} caption='Retrieve item' />
+                {/* <Button func={() => this.retrieveItem()} caption='Retrieve item' /> */}
+                <div>
+                    <button onClick={() => this.retrieveItem()} >Get items </button>
+                    <table>
+                        <tbody>
+                            {this.state.items}
+                        </tbody>
+                    </table>
+                </div>
                 <div>
                     <form onSubmit={() => this.handleUploadImage()}>
                         <input ref={(ref) => { this.uploadInput = ref; }} type="file" />

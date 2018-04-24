@@ -23,7 +23,9 @@ class ItemController {
     retrieve(filter) {
         let deferred = q.defer();
         Item.find(filter)
-            .then(items => deferred.resolve(items));
+            .then(items => {
+                    deferred.resolve(items)
+                });
         return deferred.promise;
     }
 
