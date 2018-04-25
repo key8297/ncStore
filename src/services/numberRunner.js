@@ -6,10 +6,10 @@ const getNumber = (division, type) => {
     let deferred = q.defer();
     let next;
 
-    NumberRunner.find({ division, type })
+    NumberRunner.findOne({ division, type })
         .then(current => {
             if (!current) {
-                let current = Object.assign(new NumberRunner(), { division, type, number: 1 });
+                current = Object.assign(new NumberRunner(), { division, type, number: 1 });
             }
             else {
                 current.number++;

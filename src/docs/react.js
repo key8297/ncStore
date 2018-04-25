@@ -5,7 +5,7 @@ class Button extends React.Component {
             caption: props.caption,
             func: props.func,
             message: "",
-            image:{}
+            image: {}
         }
         this.func = this.func.bind(this);
     }
@@ -26,7 +26,7 @@ class Button extends React.Component {
         return (
             <div>
                 <button onClick={() => this.func()}>{this.state.caption}</button>
-                <input type='text' style={{ color: this.state.color, width: '500px' }} readOnly='readOnly' value={this.state.message} />
+                <input type='text' style={{ color: this.state.color, width: '500px' }} value={this.state.message} />
             </div>
         );
     }
@@ -229,28 +229,57 @@ class Signup extends React.Component {
         // });
     }
 
-    retrieveItem(){
-        let body = {division: this.state.division._id, category:"5adc178c896f6b023dca5557"}; 
+    retrieveItem() {
+        let body = { division: '5adc0032dd1e8a2814ff2cb0', category: "5adc178c896f6b023dca5557" };
         axios.post('http://localhost:8000/item/search', body)
-        .then((response) => {
-            let items = response.data;
-            let collection = [];
+            .then((response) => {
+                let items = response.data;
+                let collection = [];
 
-            items.map(x => {
-                console.log(x);
-                collection.push(<tr><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/gif;base64," + x.thumnail}   /></td></tr>)
+                items.map(x => {
+                    console.log(x);
+                    collection.push(<tr><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/gif;base64," + x.thumnail} /></td></tr>)
+                });
+
+                this.setState({ items: collection });
             });
 
-            this.setState({items : collection});
-        });
-        
     }
 
-    retrieveItem2(){
+    retrieveItem2() {
         axios.get('http://localhost:8000/action')
-        .then((response) => {
-            this.setState({image : "data:image/gif;base64," + response.data});
-        });        
+            .then((response) => {
+                this.setState({ image: "data:image/gif;base64," + response.data });
+            });
+    }
+
+    createInvoice() {
+        let invoice = {
+            division: '5adc0032dd1e8a2814ff2cb0',
+            name: "batman", 
+            email: "batman2@hotmail.com",
+            address: "street abc",
+            lines:[
+                {
+                    line:1,
+                    item:"itemA",
+                    quantity:3,
+                    price:100
+                },
+                {
+                    line:1,
+                    item:"itemB",
+                    quantity:2,
+                    price:700
+                }
+            ]
+        }
+
+        axios.post('http://localhost:8000/invoice/create', invoice)
+        .then(invoice => {
+            console.log(invoice);
+        });
+
     }
 
     render() {
@@ -291,7 +320,7 @@ class Signup extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <img src={this.state.image} style={{height:100 , weight:100}} />
+                <img src={this.state.image} style={{ height: 100, weight: 100 }} />
                 <div>
                     <form onSubmit={() => this.handleUploadImage()}>
                         <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
@@ -299,6 +328,7 @@ class Signup extends React.Component {
                         <button >Upload</button>
                     </form>
                 </div>
+                <button onClick={() => this.createInvoice()}  >Create invoice</button>
             </div>
         );
     }

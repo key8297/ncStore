@@ -22,7 +22,7 @@ class ItemController {
 
     retrieve(filter) {
         let deferred = q.defer();
-        Item.find(filter)
+        Item.find(filter).limit(5)
             .then(items => {
                     deferred.resolve(items)
                 });

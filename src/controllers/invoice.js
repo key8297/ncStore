@@ -4,14 +4,27 @@ const Order = require('./../models/order');
 const Invoice = require('./../models/invoice');
 const NumberRunner = require('./../services/numberRunner');
 
+const calculateInvoice = (invoice) => {
+
+    let total = 0;
+    invoice.lines.map(line => {
+        line.total = line.price * line.quantity;
+        total+= line.total;
+    });
+
+    invoice.total = total;
+
+    return Object.assign(new Invoice(), invoice);
+}
+
 class InvoiceController {
 
     create(invoice) {
         let deferred = q.defer();
-
-        NumberRunner.getInvoiceNumber()
+        let number = new NumberRunner();
+        number.getInvoiceNumber()
             .then((invoiceNumber) => {
-                let invoice = Object.assign(new Invoice(), invoice, { invoiceNumber });
+                invoice = Object.assign(calculateInvoice(invoice), { invoiceNumber });
                 invoice.save()
                     .then(invoice => deferred.resolve(invoice));
             });
@@ -39,7 +52,7 @@ class InvoiceController {
                     }
                     else {
                         delete invoice._id;
-                        let data = Object.assign(current, invoice);
+                        let data = Object.assign(current, calculateInvoice(invoice));
                         data.save()
                             .then(invoice => deferred.resolve(invoice));
                     }
