@@ -1,24 +1,31 @@
 const fileUpload = require('express-fileupload');
-const Image = require('./../models/image')
+const Item = require('./../models/item');
+var fs = require('fs');
 
 module.exports.test = (app) => {
     app.use(fileUpload());
-    console.log("Here");
-    app.post('/upload', function (req, res) {
-        // if (!req.files)
-        //     return res.status(400).send('No files were uploaded.');
+    
+    app.get('/action', function (req, res) {
 
-        let image = Object.assign(new Image(), req.body);
-        image.save()
-            .then(i => {
-                console.log('success');
-                res.send(i);
-            }
-            )
-            .catch(err => {
-                console.log('fail');
-                res.send(err)
-            }
-            );
+        // let path=  __dirname + "/../temp1/" ;
+        // fs.readFile(path + "mb_shoes_large.gif", 'base64', (err, data) => {  
+        //     res.send(data)
+        // });
+        Item.find({})
+        .then(items => {
+            items.map(item => {
+                let path=  __dirname + "/../temp1/" ;
+                let newData = {};
+                fs.readFile(path + item.thumnailName, "base64", (err, data) => {  
+                    item.thumnail = data;
+                    item.save();
+                });
+                fs.readFile(path + item.largePhotoName, "base64", (err, data) => {  
+                    item.largePhoto = data;
+                    item.save();
+                });
+            });
+        });
+        res.send("Done");
     });
 }

@@ -5,7 +5,7 @@ const ObjectID = require('mongodb').ObjectID;
 module.exports.item = (app) => {
     let controller = new ItemController();
 
-    app.post('/item/create', (req, res) => {
+    app.post('/item/create', (req, res) => {3
         controller.create(req.body)
             .then(item => {
                 console.log(item);
@@ -18,10 +18,7 @@ module.exports.item = (app) => {
     });
 
     app.post('/item/search', (req, res) => {
-        let param = req.body;
-        param.division = new ObjectID(param.division);
-
-        controller.retrieve(param)
+        controller.retrieve(req.body)
             .then(items => 
                 res.send(items)
             )

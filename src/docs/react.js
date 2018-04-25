@@ -4,7 +4,8 @@ class Button extends React.Component {
         this.state = {
             caption: props.caption,
             func: props.func,
-            message: ""
+            message: "",
+            image:{}
         }
         this.func = this.func.bind(this);
     }
@@ -229,7 +230,7 @@ class Signup extends React.Component {
     }
 
     retrieveItem(){
-        let body = {division: this.state.division._id, code:"SO-B909-M"}; 
+        let body = {division: this.state.division._id, category:"5adc178c896f6b023dca5557"}; 
         axios.post('http://localhost:8000/item/search', body)
         .then((response) => {
             let items = response.data;
@@ -237,12 +238,19 @@ class Signup extends React.Component {
 
             items.map(x => {
                 console.log(x);
-                collection.push(<tr><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/png;base64," + x.thumnail.data}   /></td></tr>)
+                collection.push(<tr><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/gif;base64," + x.thumnail}   /></td></tr>)
             });
 
             this.setState({items : collection});
         });
         
+    }
+
+    retrieveItem2(){
+        axios.get('http://localhost:8000/action')
+        .then((response) => {
+            this.setState({image : "data:image/gif;base64," + response.data});
+        });        
     }
 
     render() {
@@ -283,6 +291,7 @@ class Signup extends React.Component {
                         </tbody>
                     </table>
                 </div>
+                <img src={this.state.image} style={{height:100 , weight:100}} />
                 <div>
                     <form onSubmit={() => this.handleUploadImage()}>
                         <input ref={(ref) => { this.uploadInput = ref; }} type="file" />

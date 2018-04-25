@@ -10,11 +10,15 @@ var itemSchema = new Schema({
     category: mongoose.Schema.Types.ObjectId,
     price: Number,
     status: String,
-    thumnail: Buffer,
+    thumnail: String,
     thumnailName: String,
-    largePhoto: Buffer,
+    largePhoto: String,
     largePhotoName: String
   });
+
+itemSchema.virtual("id").get(() => {
+  return this._id.toString()
+});
 
 var Item = mongoose.model('Item', itemSchema);
 
