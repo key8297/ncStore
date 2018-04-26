@@ -13,7 +13,7 @@ const getNumber = (division, type) => {
             }
             else {
                 current.number++;
-                current.save()
+                current.save();
             }
             current.save()
                 .then(current => deferred.resolve(current.number));
@@ -22,14 +22,12 @@ const getNumber = (division, type) => {
     return deferred.promise;
 }
 
-class NumberRunnerController {
+module.exports = {
     getInvoiceNumber(division) {
         return getNumber(division, "Invoice");
-    }
+    },
 
     getOrderNumber(division) {
         return getNumber(division, "Order");
     }
 }
-
-module.exports = NumberRunnerController

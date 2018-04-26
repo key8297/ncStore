@@ -20,7 +20,10 @@ module.exports.order = (app) => {
         controller.retrieve(req.body)
         .then(orders => {
             console.log(orders);
-            res.send(orders);
+            if(orders.length == 1)
+                res.send(orders[0])
+            else
+                res.send(orders);
         })
         .catch(error =>{
             console.log(error);

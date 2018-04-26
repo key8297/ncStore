@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var numberRunnerSchema = new Schema({
-  division: Number,
+  division: mongoose.Schema.Types.ObjectId,
   type: String,
   number: Number
 });

@@ -3,6 +3,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var invoiceLineSchema = new Schema({    
+    line: Number,
+    item: String,
+    quantity: Number,
+    price: Number,
+    total: Number
+  });
+
 var invoiceSchema = new Schema({
     division: mongoose.Schema.Types.ObjectId,
     invoiceNumber: String,
@@ -10,15 +18,12 @@ var invoiceSchema = new Schema({
     name: String,
     email: String,
     address: String,
-    lines: [{
-        line: Number,
-        item: String,
-        quantity: Number,
-        price: Number,
-        total: Number
-    }],
+    lines:[invoiceLineSchema],
     total: Number,
-    status: String
+    status: {
+        type: String,
+        default: "Open"
+    }
 });
 
 var Invoice = mongoose.model('Invoice', invoiceSchema);

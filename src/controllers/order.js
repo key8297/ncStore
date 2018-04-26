@@ -1,15 +1,28 @@
 'use strict';
 var q = require('q');
-var NumberRunner = require('./../services/numberRunner');
+const Order = require('./../models/order');
+const Number = require('./../services/numberRunner');
+
+const calculateOrder = (order) => {
+
+    let total = 0;
+    order.lines.map(line => {
+        line.total = line.price * line.quantity;
+        total += line.total;
+    });
+
+    order.total = total;
+
+    return order;
+}
 
 class OrderController {
 
     create(order) {
         let deferred = q.defer();
-
-        NumberRunner.getOrderNumber(newOrder.division)
+        Number.getOrderNumber(order.division)
             .then((orderNumber) => {
-                let order = Object.assign(new Order(), order, {orderNumber});
+                order = Object.assign(new Order(), calculateOrder(order), {orderNumber});
                 order.save()
                     .then(order => deferred.resolve(order));
             });
@@ -27,7 +40,7 @@ class OrderController {
 
     update(order) {
         let deferred = q.defer();
-        Order.find({ orderNumber: order.orderNumber })
+        Order.findOne({ division: order.division, _id: order._id })
             .then(current => {
                 if (!current) {
                     deferred.reject("[Update Order] Record not found.");
@@ -38,7 +51,7 @@ class OrderController {
                     }
                     else {
                         delete order._id;
-                        let data = Object.assign(current, order);
+                        let data = Object.assign(current, calculateOrder(order));
                         data.save()
                             .then(order => deferred.resolve(order));
                     }

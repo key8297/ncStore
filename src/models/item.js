@@ -15,11 +15,7 @@ var itemSchema = new Schema({
     largePhoto: String,
     largePhotoName: String
   });
-
-itemSchema.virtual("id").get(() => {
-  return this._id.toString()
-});
-
+  
 var Item = mongoose.model('Item', itemSchema);
 
 module.exports = Item;

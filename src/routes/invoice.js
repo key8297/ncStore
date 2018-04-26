@@ -10,7 +10,7 @@ module.exports.invoice = (app) => {
                 console.log(invoice);
                 res.send(invoice);
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log(error);
                 res.status(701).send(`Error: ${error}`)
             });
@@ -18,47 +18,49 @@ module.exports.invoice = (app) => {
 
     app.post('/invoice/search', (req, res) => {
         controller.retrieve(req.body)
-        .then(invoices => {
-            console.log(invoices);
-            res.send(invoices);
-        })
-        .catch(error =>{
-            console.log(error);
-            res.status(701).send(`Error: ${error}`)
-        });
+            .then(invoices => {
+                if (invoices.length == 1)
+                    res.send(invoices[0])
+                else
+                    res.send(invoices);
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(701).send(`Error: ${error}`)
+            });
     });
 
     app.post('/invoice/update', (req, res) => {
         controller.update(req.body)
-        .then(invoice => {
-            console.log(invoice);
-            res.send(invoice);
-        })
-        .catch(error =>{
-            console.log(error);
-            res.status(701).send(`Error: ${error}`)
-        });
+            .then(invoice => {
+                console.log(invoice);
+                res.send(invoice);
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(701).send(`Error: ${error}`)
+            });
     });
 
     app.post('/invoice/createfromorder', (req, res) => {
-        controller.createFromOrder(req.body.division, req.body.orderNumber)
-        .then(invoice => {
-            console.log(invoice);
-            res.send(invoice);
-        })
-        .catch(error =>{
-            console.log(error);
-            res.status(701).send(`Error: ${error}`)
-        });
+        controller.createFromOrder(req.body)
+            .then(invoice => {
+                console.log(invoice);
+                res.send(invoice);
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(701).send(`Error: ${error}`)
+            });
     });
 
     app.post('/invoice/delete', (req, res) => {
         controller.delete(req.body.division, req.body.invoiceNumber)
-        .then(success => {
-            res.send(success);          
-        })
-        .catch(error => {
-            res.status(701).send(`Error: ${error}`);
-        });
+            .then(success => {
+                res.send(success);
+            })
+            .catch(error => {
+                res.status(701).send(`Error: ${error}`);
+            });
     });
 }

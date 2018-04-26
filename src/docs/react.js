@@ -238,7 +238,7 @@ class Signup extends React.Component {
 
                 items.map(x => {
                     console.log(x);
-                    collection.push(<tr><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/gif;base64," + x.thumnail} /></td></tr>)
+                    collection.push(<tr key={x.code}><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/gif;base64," + x.thumnail} /></td></tr>)
                 });
 
                 this.setState({ items: collection });
@@ -267,7 +267,7 @@ class Signup extends React.Component {
                     price:100
                 },
                 {
-                    line:1,
+                    line:2,
                     item:"itemB",
                     quantity:2,
                     price:700
@@ -280,6 +280,87 @@ class Signup extends React.Component {
             console.log(invoice);
         });
 
+    }
+
+    updateInvoice(){
+        axios.post('http://localhost:8000/invoice/search',
+            {
+                division:"5adc0032dd1e8a2814ff2cb0",
+                invoiceNumber: "17"
+            })
+        .then((response) => {
+            let invoice = response.data;
+            let line = invoice.lines[1];
+            line.quantity = 2;
+            axios.post('http://localhost:8000/invoice/update',
+                invoice
+            )
+            .then((response) => console.log(response.data));
+        });
+    }
+
+    createOrder() {
+        let order = {
+            division: '5adc0032dd1e8a2814ff2cb0',
+            name: "batman", 
+            email: "batman2@hotmail.com",
+            address: "street abc",
+            lines:[
+                {
+                    line:1,
+                    item:"itemA",
+                    quantity:3,
+                    price:100
+                },
+                {
+                    line:2,
+                    item:"itemB",
+                    quantity:2,
+                    price:700
+                }
+            ]
+        }
+
+        axios.post('http://localhost:8000/order/create', order)
+        .then(order => {
+            console.log(order);
+        });
+        
+
+    }
+
+    updateOrder(){
+        axios.post('http://localhost:8000/order/search',
+            {
+                division:"5adc0032dd1e8a2814ff2cb0",
+                orderNumber: "12"
+            })
+        .then((response) => {
+            let order = response.data;
+            let line = order.lines[1];
+            line.quantity = 8;
+            axios.post('http://localhost:8000/order/update',
+                order
+            )
+            .then((response) => console.log(response.data));
+        });
+    }
+
+    createInvoiceFromOrder() {
+
+        axios.post('http://localhost:8000/order/search',
+            {
+                division: "5adc0032dd1e8a2814ff2cb0",
+                orderNumber: "13"
+            })
+            .then((response) => {
+                let order = response.data;
+
+                axios.post('http://localhost:8000/invoice/createfromorder',
+                    order
+                )
+                    .then((response) => console.log(response.data));
+            });
     }
 
     render() {
@@ -329,6 +410,10 @@ class Signup extends React.Component {
                     </form>
                 </div>
                 <button onClick={() => this.createInvoice()}  >Create invoice</button>
+                <button onClick={() => this.updateInvoice()}  >Update invoice</button>
+                <button onClick={() => this.createOrder()}  >Create order</button>
+                <button onClick={() => this.updateOrder()}  >Update order</button>
+                <button onClick={() => this.createInvoiceFromOrder()}  >Create invoice from order</button>
             </div>
         );
     }
