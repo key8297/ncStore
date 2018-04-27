@@ -19,7 +19,8 @@ app.use(bodyParser.json({ extended: true }));
 //     },
 // }));
 
-mongoose.connect(config.dbUrl)
+mongoose.connect(config.dbUrl);
+config.user = "testUser";
 
 app.listen(port, () => {
     static(app);
