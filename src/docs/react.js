@@ -94,7 +94,7 @@ class Signup extends React.Component {
     addCategory() {
         let category = {
             division: this.state.division._id,
-            code: "Cat1",
+            code: "Cat2",
             description: "First category",
             status: "Active",
             imageUrl: "",

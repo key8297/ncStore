@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var timestamps = require('mongoose-timestamp');
 
 var orderLineSchema = new Schema({    
     line: Number,
@@ -12,9 +13,19 @@ var orderLineSchema = new Schema({
   });
 
 var orderSchema = new Schema({
-    orderNumber: String,
-    division:mongoose.Schema.Types.ObjectId,
-    name: String,
+    orderNumber: {
+      type: String,
+      required: [true, "Mandatory: Order Number"],
+      unique: true
+    },
+    division:{
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, "Mandatory: Division"]
+    },
+    name: {
+      type: String,
+      required: [true, "Mandatory: Name"]
+    },
     email: String,
     address: String,
     lines:[orderLineSchema],

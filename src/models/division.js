@@ -4,8 +4,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var divisionSchema = new Schema({
-    code: String,
-    contact: String,
+    code: {
+        type: String,
+        required: [true, "Mandatory: Code"],
+        unique: true
+      },
+    contact: {
+        type: String,
+        required: [true, "Mandatory: Contact"]
+      },
     collaborators:[{email:String}],
     status: String,
     address: String,

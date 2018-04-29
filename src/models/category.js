@@ -2,10 +2,19 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var timestamps = require('mongoose-timestamp');
 
 var categorySchema = new Schema({
-  division: mongoose.Schema.Types.ObjectId,
-  code: String,
+  division:
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, "Mandatory: Division"]
+    },
+  code: {
+    type: String,
+    required: [true, "Mandatory: Code"],
+    unique: true
+  },
   description: String,
   status: String,
   thumnail: Buffer,
@@ -14,6 +23,7 @@ var categorySchema = new Schema({
   largePhotoName: String
 });
 
+categorySchema.plugin(timestamps);
 var Category = mongoose.model('Category', categorySchema);
 
 module.exports = Category;
