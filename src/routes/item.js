@@ -13,25 +13,25 @@ module.exports.item = (app) => {
             })
             .catch(error =>{
                 console.log(error);
-                res.status(701).send(`Error: ${error}`)
+                res.status(400).send(`Error: ${error}`)
             });
     });
 
     app.post('/item/search', (req, res) => {
-        controller.retrieve(req.body)
+        controller.retrieve(req.body, req.query)
             .then(items => 
                 res.send(items)
             )
             .catch(
                 error => 
-                res.status(701).send(`Error: ${error}`)
+                res.status(400).send(`Error: ${error}`)
             );
     });
 
     app.post('/item/update', (req, res) => {
         controller.update(req.body)
             .then(item => res.send(item))
-            .catch(error => res.status(701).send(`Error: ${error}`));
+            .catch(error => res.status(400).send(`Error: ${error}`));
     });
 
     app.post('/item/delete', (req, res) => {
@@ -40,7 +40,7 @@ module.exports.item = (app) => {
             res.send(success);          
         })
         .catch(error => {
-            res.status(701).send(`Error: ${error}`);
+            res.status(400).send(`Error: ${error}`);
         });
     });
 }

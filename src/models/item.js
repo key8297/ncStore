@@ -10,9 +10,13 @@ var itemSchema = new Schema({
     category: mongoose.Schema.Types.ObjectId,
     price: Number,
     status: String,
-    thumnail: String,
+    thumnail: {
+      type:String
+    },
     thumnailName: String,
-    largePhoto: String,
+    largePhoto: {
+      type:String
+    },
     largePhotoName: String
   });
   

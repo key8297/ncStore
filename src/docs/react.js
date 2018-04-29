@@ -231,7 +231,7 @@ class Signup extends React.Component {
 
     retrieveItem() {
         let body = { division: '5adc0032dd1e8a2814ff2cb0', category: "5adc178c896f6b023dca5557" };
-        axios.post('http://localhost:8000/item/search', body)
+        axios.post('http://localhost:8000/item/search?thumnail=1', body)
             .then((response) => {
                 let items = response.data;
                 let collection = [];
@@ -256,94 +256,94 @@ class Signup extends React.Component {
     createInvoice() {
         let invoice = {
             division: '5adc0032dd1e8a2814ff2cb0',
-            name: "batman", 
+            name: "batman",
             email: "batman2@hotmail.com",
             address: "street abc",
-            lines:[
+            lines: [
                 {
-                    line:1,
-                    item:"itemA",
-                    quantity:3,
-                    price:100
+                    line: 1,
+                    item: "itemA",
+                    quantity: 3,
+                    price: 100
                 },
                 {
-                    line:2,
-                    item:"itemB",
-                    quantity:2,
-                    price:700
+                    line: 2,
+                    item: "itemB",
+                    quantity: 2,
+                    price: 700
                 }
             ]
         }
 
         axios.post('http://localhost:8000/invoice/create', invoice)
-        .then(invoice => {
-            console.log(invoice);
-        });
+            .then(invoice => {
+                console.log(invoice);
+            });
 
     }
 
-    updateInvoice(){
+    updateInvoice() {
         axios.post('http://localhost:8000/invoice/search',
             {
-                division:"5adc0032dd1e8a2814ff2cb0",
+                division: "5adc0032dd1e8a2814ff2cb0",
                 invoiceNumber: "17"
             })
-        .then((response) => {
-            let invoice = response.data;
-            let line = invoice.lines[1];
-            line.quantity = 2;
-            axios.post('http://localhost:8000/invoice/update',
-                invoice
-            )
-            .then((response) => console.log(response.data));
-        });
+            .then((response) => {
+                let invoice = response.data;
+                let line = invoice.lines[1];
+                line.quantity = 2;
+                axios.post('http://localhost:8000/invoice/update',
+                    invoice
+                )
+                    .then((response) => console.log(response.data));
+            });
     }
 
     createOrder() {
         let order = {
             division: '5adc0032dd1e8a2814ff2cb0',
-            name: "batman", 
+            name: "batman",
             email: "batman2@hotmail.com",
             address: "street abc",
-            lines:[
+            lines: [
                 {
-                    line:1,
-                    item:"itemA",
-                    quantity:3,
-                    price:100
+                    line: 1,
+                    item: "itemA",
+                    quantity: 3,
+                    price: 100
                 },
                 {
-                    line:2,
-                    item:"itemB",
-                    quantity:2,
-                    price:700
+                    line: 2,
+                    item: "itemB",
+                    quantity: 2,
+                    price: 700
                 }
             ]
         }
 
         axios.post('http://localhost:8000/order/create', order)
-        .then(order => {
-            console.log(order);
-        });
-        
+            .then(order => {
+                console.log(order);
+            });
+
 
     }
 
-    updateOrder(){
+    updateOrder() {
         axios.post('http://localhost:8000/order/search',
             {
-                division:"5adc0032dd1e8a2814ff2cb0",
+                division: "5adc0032dd1e8a2814ff2cb0",
                 orderNumber: "12"
             })
-        .then((response) => {
-            let order = response.data;
-            let line = order.lines[1];
-            line.quantity = 8;
-            axios.post('http://localhost:8000/order/update',
-                order
-            )
-            .then((response) => console.log(response.data));
-        });
+            .then((response) => {
+                let order = response.data;
+                let line = order.lines[1];
+                line.quantity = 8;
+                axios.post('http://localhost:8000/order/update',
+                    order
+                )
+                    .then((response) => console.log(response.data));
+            });
     }
 
     createInvoiceFromOrder() {
@@ -359,7 +359,10 @@ class Signup extends React.Component {
                 axios.post('http://localhost:8000/invoice/createfromorder',
                     order
                 )
-                    .then((response) => console.log(response.data));
+                .then((response) => console.log(response.data))
+                .catch(err => 
+                    console.log(err.response.data)
+                );
             });
     }
 

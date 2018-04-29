@@ -10,6 +10,7 @@ const app = express();
 
 const port = process.env.PORT || 8000;
 app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // app.use(() => multer({
@@ -28,7 +29,7 @@ app.listen(port, () => {
     // app.use((req, res, next) => {
     //     let paths = ['/signup', '/login', '/newdivision', '/division', '/removedivision'];
     //     if (!paths.includes(req.path) && !req.body.division)
-    //     res.status(701).send('Error')
+    //     res.status(400).send('Error')
     //     else
     //     res.send('Ok')
     // });

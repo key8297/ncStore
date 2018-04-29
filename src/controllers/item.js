@@ -20,9 +20,24 @@ class ItemController {
         return deferred.promise;
     }
 
-    retrieve(filter) {
+    retrieve(filter,params) {
+        let count = parseInt(params.count) || 10;
+        let largePhoto = params.largePhoto;
+        let thumnail = params.thumnail;
+        let skip = parseInt(params.skip) || 0;
+
         let deferred = q.defer();
-        Item.find(filter).limit(5)
+
+        let includeFields = ""; 
+        if(!thumnail){
+            includeFields+= "-thumnail ";
+        }
+
+        if(!largePhoto){
+            includeFields+= "-largePhoto ";
+        }
+
+        Item.find(filter).limit(count).select(includeFields).skip(skip)
             .then(items => {
                     deferred.resolve(items)
                 });

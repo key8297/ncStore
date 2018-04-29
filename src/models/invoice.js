@@ -26,6 +26,13 @@ var invoiceSchema = new Schema({
     }
 });
 
+invoiceSchema.virtual('getLines')
+    .get(() =>  {
+        return this.lines;
+    });
+
 var Invoice = mongoose.model('Invoice', invoiceSchema);
+
+
 
 module.exports = Invoice;

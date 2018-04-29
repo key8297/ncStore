@@ -12,7 +12,7 @@ module.exports.invoice = (app) => {
             })
             .catch(error => {
                 console.log(error);
-                res.status(701).send(`Error: ${error}`)
+                res.status(400).send(`Error: ${error}`)
             });
     });
 
@@ -26,7 +26,7 @@ module.exports.invoice = (app) => {
             })
             .catch(error => {
                 console.log(error);
-                res.status(701).send(`Error: ${error}`)
+                res.status(400).send(`Error: ${error}`)
             });
     });
 
@@ -38,7 +38,7 @@ module.exports.invoice = (app) => {
             })
             .catch(error => {
                 console.log(error);
-                res.status(701).send(`Error: ${error}`)
+                res.status(400).send(`Error: ${error}`)
             });
     });
 
@@ -50,7 +50,7 @@ module.exports.invoice = (app) => {
             })
             .catch(error => {
                 console.log(error);
-                res.status(701).send(`Error: ${error}`)
+                res.status(400).send(`Error: ${error}`)
             });
     });
 
@@ -60,7 +60,8 @@ module.exports.invoice = (app) => {
                 res.send(success);
             })
             .catch(error => {
-                res.status(701).send(`Error: ${error}`);
+                res.statusText = `Error: ${error}`;
+                res.status(400).send(`Error: ${error}`);
             });
     });
 }

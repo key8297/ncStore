@@ -5,6 +5,7 @@ const Invoice = require('./../models/invoice');
 const Number = require('./../services/numberRunner');
 const ObjectID = require('mongodb').ObjectID;
 const config = require('./../config/db');
+const OrderController = require('./../controllers/order');
 
 const calculateInvoice = (invoice) => {
 
@@ -65,28 +66,35 @@ class InvoiceController {
     createFromOrder(order) {
         let deferred = q.defer();
         Order.findOne({ division: order.division, _id: order._id })
-            .then(order => {
-                if (!order) {
-                    deferred.reject(`[Create Invoice From Order] (order not found) ${orderNumber}`);
+            .then(currentOrder => {
+                if (!currentOrder) {
+                    deferred.reject(`[Create Invoice From Order] (order not found) ${order.orderNumber}`);
                 }
-                else if (order.status == "Completed") {
-                    deferred.reject(`[Create Invoice From Order] (order completed) ${orderNumber}`);
+                else if (currentOrder.status == "Completed") {
+                    deferred.reject(`[Create Invoice From Order] (order completed) ${order.orderNumber}`);
                 }
-                else if (order.status == "Open" || order.status == "Confirmed") {
+                else if (currentOrder.status == "Open" || currentOrder.status == "Confirmed") {
                     Number.getInvoiceNumber(order.division)
                         .then(invoiceNumber => {
-
-                            let invoice = Object.assign(new Invoice(),
+                            let invoice = Object.assign(new Invoice, currentOrder, 
                                 {
-                                    name: order.name,
-                                    lines: order.lines,
-                                    division: order.division,
-                                    email: order.email,
-                                    address: order.address,
-                                    orderNumber: order.orderNumber
+                                    invoiceNumber, 
+                                    _id : new ObjectID(),
+                                    isNew : true
                                 });
+
                             invoice.save()
-                                .then(invoice => deferred.resolve(invoice))
+                                .then(invoice => 
+                                    {
+                                        var orderController = new OrderController();
+                                        order.status = "Completed";
+                                        orderController.update(order)
+                                        .then(x =>                           
+                                            deferred.resolve(invoice)
+                                        );
+                                    }
+                                )
+
                         });
                 }
             });

@@ -7,12 +7,10 @@ module.exports.order = (app) => {
     app.post('/order/create', (req, res) => {
         controller.create(req.body)
         .then(order => {
-            console.log(order);
             res.send(order);
         })
         .catch(error =>{
-            console.log(error);
-            res.status(701).send(`Error: ${error}`)
+            res.status(400).send(`Error: ${error}`)
         });
     });
 
@@ -27,7 +25,7 @@ module.exports.order = (app) => {
         })
         .catch(error =>{
             console.log(error);
-            res.status(701).send(`Error: ${error}`)
+            res.status(400).send(`Error: ${error}`)
         });
     });
 
@@ -39,7 +37,7 @@ module.exports.order = (app) => {
         })
         .catch(error =>{
             console.log(error);
-            res.status(701).send(`Error: ${error}`)
+            res.status(400).send(`Error: ${error}`)
         });
     });
 
@@ -49,7 +47,7 @@ module.exports.order = (app) => {
             res.send(success);          
         })
         .catch(error => {
-            res.status(701).send(`Error: ${error}`);
+            res.status(400).send(`Error: ${error}`);
         });
     });
 }
