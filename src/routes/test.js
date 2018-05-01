@@ -1,7 +1,7 @@
 const fileUpload = require('express-fileupload');
 const Item = require('./../models/item');
 const Category = require('./../models/category');
-const SubCategory = require('./../models/subcategory');
+const SubCategory = require('./../models/subCategory');
 const ObjectID = require('mongodb').ObjectID;
 var fs = require('fs');
 
