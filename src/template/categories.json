@@ -1,0 +1,22 @@
+[
+    {
+      "code": 4,
+      "description": "Accessories",
+      "status": "Active"
+    },
+    {
+      "code": 1,
+      "description": "Bikes",
+      "status": "Active"
+    },
+    {
+      "code": 3,
+      "description": "Clothing",
+      "status": "Active"
+    },
+    {
+      "code": 2,
+      "description": "Components",
+      "status": "Active"
+    }
+  ]

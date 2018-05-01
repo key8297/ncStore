@@ -230,7 +230,7 @@ class Signup extends React.Component {
     }
 
     retrieveItem() {
-        let body = { division: '5adc0032dd1e8a2814ff2cb0', category: "5adc178c896f6b023dca5557" };
+        let body = { division: '5adc0032dd1e8a2814ff2cb0', category: "5ae806458ff77628c42271a8" };
         axios.post('http://localhost:8000/item/search?thumnail=1', body)
             .then((response) => {
                 let items = response.data;

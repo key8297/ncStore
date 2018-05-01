@@ -1,0 +1,224 @@
+[
+    {
+      "code": 1,
+      "category": 1,
+      "description": "Mountain Bikes",
+      "status": "Active"
+    },
+    {
+      "code": 2,
+      "category": 1,
+      "description": "Road Bikes",
+      "status": "Active"
+    },
+    {
+      "code": 3,
+      "category": 1,
+      "description": "Touring Bikes",
+      "status": "Active"
+    },
+    {
+      "code": 4,
+      "category": 2,
+      "description": "Handlebars",
+      "status": "Active"
+    },
+    {
+      "code": 5,
+      "category": 2,
+      "description": "Bottom Brackets",
+      "status": "Active"
+    },
+    {
+      "code": 6,
+      "category": 2,
+      "description": "Brakes",
+      "status": "Active"
+    },
+    {
+      "code": 7,
+      "category": 2,
+      "description": "Chains",
+      "status": "Active"
+    },
+    {
+      "code": 8,
+      "category": 2,
+      "description": "Cranksets",
+      "status": "Active"
+    },
+    {
+      "code": 9,
+      "category": 2,
+      "description": "Derailleurs",
+      "status": "Active"
+    },
+    {
+      "code": 10,
+      "category": 2,
+      "description": "Forks",
+      "status": "Active"
+    },
+    {
+      "code": 11,
+      "category": 2,
+      "description": "Headsets",
+      "status": "Active"
+    },
+    {
+      "code": 12,
+      "category": 2,
+      "description": "Mountain Frames",
+      "status": "Active"
+    },
+    {
+      "code": 13,
+      "category": 2,
+      "description": "Pedals",
+      "status": "Active"
+    },
+    {
+      "code": 14,
+      "category": 2,
+      "description": "Road Frames",
+      "status": "Active"
+    },
+    {
+      "code": 15,
+      "category": 2,
+      "description": "Saddles",
+      "status": "Active"
+    },
+    {
+      "code": 16,
+      "category": 2,
+      "description": "Touring Frames",
+      "status": "Active"
+    },
+    {
+      "code": 17,
+      "category": 2,
+      "description": "Wheels",
+      "status": "Active"
+    },
+    {
+      "code": 18,
+      "category": 3,
+      "description": "Bib-Shorts",
+      "status": "Active"
+    },
+    {
+      "code": 19,
+      "category": 3,
+      "description": "Caps",
+      "status": "Active"
+    },
+    {
+      "code": 20,
+      "category": 3,
+      "description": "Gloves",
+      "status": "Active"
+    },
+    {
+      "code": 21,
+      "category": 3,
+      "description": "Jerseys",
+      "status": "Active"
+    },
+    {
+      "code": 22,
+      "category": 3,
+      "description": "Shorts",
+      "status": "Active"
+    },
+    {
+      "code": 23,
+      "category": 3,
+      "description": "Socks",
+      "status": "Active"
+    },
+    {
+      "code": 24,
+      "category": 3,
+      "description": "Tights",
+      "status": "Active"
+    },
+    {
+      "code": 25,
+      "category": 3,
+      "description": "Vests",
+      "status": "Active"
+    },
+    {
+      "code": 26,
+      "category": 4,
+      "description": "Bike Racks",
+      "status": "Active"
+    },
+    {
+      "code": 27,
+      "category": 4,
+      "description": "Bike Stands",
+      "status": "Active"
+    },
+    {
+      "code": 28,
+      "category": 4,
+      "description": "Bottles and Cages",
+      "status": "Active"
+    },
+    {
+      "code": 29,
+      "category": 4,
+      "description": "Cleaners",
+      "status": "Active"
+    },
+    {
+      "code": 30,
+      "category": 4,
+      "description": "Fenders",
+      "status": "Active"
+    },
+    {
+      "code": 31,
+      "category": 4,
+      "description": "Helmets",
+      "status": "Active"
+    },
+    {
+      "code": 32,
+      "category": 4,
+      "description": "Hydration Packs",
+      "status": "Active"
+    },
+    {
+      "code": 33,
+      "category": 4,
+      "description": "Lights",
+      "status": "Active"
+    },
+    {
+      "code": 34,
+      "category": 4,
+      "description": "Locks",
+      "status": "Active"
+    },
+    {
+      "code": 35,
+      "category": 4,
+      "description": "Panniers",
+      "status": "Active"
+    },
+    {
+      "code": 36,
+      "category": 4,
+      "description": "Pumps",
+      "status": "Active"
+    },
+    {
+      "code": 37,
+      "category": 4,
+      "description": "Tires and Tubes",
+      "status": "Active"
+    }
+  ]

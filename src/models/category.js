@@ -5,15 +5,14 @@ var Schema = mongoose.Schema;
 var timestamps = require('mongoose-timestamp');
 
 var categorySchema = new Schema({
-  division:
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      required: [true, "Mandatory: Division"]
-    },
   code: {
     type: String,
     required: [true, "Mandatory: Code"],
     unique: true
+  },
+  division: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, "Mandatory: Division"]
   },
   description: String,
   status: String,
