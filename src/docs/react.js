@@ -48,7 +48,8 @@ class Signup extends React.Component {
                 code: ""
             },
             selectedFile: {},
-            items: []
+            items: [],
+            categories: []
         }
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
@@ -121,12 +122,19 @@ class Signup extends React.Component {
     }
 
     retrieveCategory() {
-        let category = {
-            division: this.state.division._id,
-            code: "Cat1"
-        }
+        let body = { division: '5adc0032dd1e8a2814ff2cb0' };
+        axios.post('http://localhost:8000/category/search', body)
+            .then((response) => {
+                let categories = response.data;
+                let collection = [];
 
-        return axios.post('/category/search', category);
+                categories.map(x => {
+                    console.log(x);
+                    collection.push(<tr key={x.code}><td>{x.code}</td><td>{x.description}</td><td><img src={"data:image/gif;base64," + x.thumnail} /></td></tr>)
+                });
+
+                this.setState({ categories: collection });
+            });
     }
 
     addItem() {
@@ -381,7 +389,15 @@ class Signup extends React.Component {
                     <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.division._id} />
                 </div>
                 <Button func={() => this.addCategory()} caption='New category' />
-                <Button func={() => this.getCategory()} caption='Get category' />
+                {/* <Button func={() => this.getCategory()} caption='Get category' /> */}
+                <div>
+                    <button onClick={() => this.retrieveCategory()} >Get categories </button>
+                    <table>
+                        <tbody>
+                            {this.state.categories}
+                        </tbody>
+                    </table>
+                </div>
                 <Button func={() => this.deleteCategory()} caption='Delete category' />
                 <Button func={() => this.retrieveCategory()} caption='Retrieve category' />
                 <div>

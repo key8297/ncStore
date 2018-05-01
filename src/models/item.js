@@ -35,7 +35,7 @@ var itemSchema = new Schema({
   largePhotoName: String
 });
 
-categorySchema.plugin(timestamps);
+itemSchema.plugin(timestamps);
 var Item = mongoose.model('Item', itemSchema);
 
 module.exports = Item;

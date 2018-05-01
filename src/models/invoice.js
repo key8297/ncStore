@@ -51,7 +51,7 @@ invoiceSchema.virtual('getLines')
         return this.lines;
     });
 
-categorySchema.plugin(timestamps);
+invoiceSchema.plugin(timestamps);
 var Invoice = mongoose.model('Invoice', invoiceSchema);
 
 module.exports = Invoice;

@@ -21,6 +21,7 @@ var divisionSchema = new Schema({
     phone: String
 });
 
+divisionSchema.plugin(timestamps);
 var Division = mongoose.model('Division', divisionSchema);
 
 module.exports = Division;
