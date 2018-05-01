@@ -67,18 +67,17 @@ module.exports.test = (app) => {
         // fs.readFile(path + "mb_shoes_large.gif", 'base64', (err, data) => {  
         //     res.send(data)
         // });
-        Item.find({})
-            .then(items => {
-                items.map(item => {
-                    let path = __dirname + "/../temp1/";
+        Category.find({})
+            .then(cats => {
+                cats.map(cat => {
+                    let path = __dirname + "/../categories/" + cat.description + ".jpg";
                     let newData = {};
-                    fs.readFile(path + item.thumnailName, "base64", (err, data) => {
-                        item.thumnail = data;
-                        item.save();
-                    });
-                    fs.readFile(path + item.largePhotoName, "base64", (err, data) => {
-                        item.largePhoto = data;
-                        item.save();
+                    fs.readFile(path, "base64", (err, data) => {
+                        cat.thumnail = data;
+                        cat.thumnailName = cat.description + ".jpg"
+                        cat.largePhoto = data;
+                        cat.largePhotoName = cat.description + ".jpg"
+                        cat.save();
                     });
                 });
             });

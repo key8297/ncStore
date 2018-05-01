@@ -20,9 +20,9 @@ var subCategorySchema = new Schema({
   },
   description: String,
   status: String,
-  thumnail: Buffer,
+  thumnail: String,
   thumnailName: String,
-  largePhoto: Buffer,
+  largePhoto: String,
   largePhotoName: String
 });
 

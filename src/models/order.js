@@ -36,6 +36,7 @@ var orderSchema = new Schema({
     }
   });
 
+categorySchema.plugin(timestamps);
 var Order = mongoose.model('Order', orderSchema);
 
 module.exports = Order;
