@@ -1,6 +1,7 @@
 'use strict';
-var q = require('q');
+const q = require('q');
 const User = require('./../models/user');
+const auth = require('../auth/auth');
 
 class UserController{
 
@@ -14,7 +15,13 @@ class UserController{
             else{
                 let data = Object.assign(new User(), user);
                 data.save()
-                .then((user) => deferred.resolve(user));
+                .then(user => {
+                    let token = auth.sign({
+                        name: user.name,
+                        email: user.email
+                    });
+                    deferred.resolve({token});
+                });
             }
         });
         return deferred.promise;
@@ -25,10 +32,19 @@ class UserController{
         User.findOne({email, password})
         .then((user) => {
             if(user){
-                deferred.resolve(user);
+                if(user.password === password){
+                    let token = auth.sign({
+                        name: user.name,
+                        email: user.email
+                    });
+                    deferred.resolve({token});
+                }
+                else{
+                    deferred.reject('Invalid password');    
+                }
             }
             else {
-                deferred.reject(`${email} : Invalid user or password.`);
+                deferred.reject(`User not found`);
             }
         });
         

@@ -1,10 +1,11 @@
 'use strict';
-let OrderController = require('./../controllers/order')
+let OrderController = require('./../controllers/order');
+const auth = require('../auth/auth');
 
 module.exports.order = (app) => {
     let controller = new OrderController();
 
-    app.post('/order/create', (req, res) => {
+    app.post('/order/create', auth.verifyToken, (req, res) => {
         controller.create(req.body)
         .then(order => {
             res.send(order);
@@ -14,7 +15,7 @@ module.exports.order = (app) => {
         });
     });
 
-    app.post('/order/search', (req, res) => {
+    app.post('/order/search', auth.verifyToken, (req, res) => {
         controller.retrieve(req.body)
         .then(orders => {
             console.log(orders);
@@ -29,7 +30,7 @@ module.exports.order = (app) => {
         });
     });
 
-    app.post('/order/update', (req, res) => {
+    app.post('/order/update', auth.verifyToken, (req, res) => {
         controller.update(req.body)
         .then(order => {
             console.log(order);
@@ -41,7 +42,7 @@ module.exports.order = (app) => {
         });
     });
 
-    app.post('/order/delete', (req, res) => {
+    app.post('/order/delete', auth.verifyToken, (req, res) => {
         controller.delete(req.body.division, req.body.orderNumber)
         .then(success => {
             res.send(success);          

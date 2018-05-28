@@ -37,9 +37,9 @@ class Signup extends React.Component {
         super();
         this.state = {
             user: {
-                name: "spider man",
-                email: 'spiderman@gmail.com',
-                password: 'password123'
+                name: "batman2",
+                email: 'batman2@gmail.com',
+                password: 'batman2'
             },
             division: {
                 code: ""

@@ -1,10 +1,11 @@
 'use strict';
-let InvoiceController = require('./../controllers/invoice')
+let InvoiceController = require('./../controllers/invoice');
+const auth = require('../auth/auth');
 
 module.exports.invoice = (app) => {
     let controller = new InvoiceController();
 
-    app.post('/invoice/create', (req, res) => {
+    app.post('/invoice/create', auth.verifyToken, (req, res) => {
         controller.create(req.body)
             .then(invoice => {
                 console.log(invoice);
@@ -16,7 +17,7 @@ module.exports.invoice = (app) => {
             });
     });
 
-    app.post('/invoice/search', (req, res) => {
+    app.post('/invoice/search', auth.verifyToken, (req, res) => {
         controller.retrieve(req.body)
             .then(invoices => {
                 if (invoices.length == 1)
@@ -30,7 +31,7 @@ module.exports.invoice = (app) => {
             });
     });
 
-    app.post('/invoice/update', (req, res) => {
+    app.post('/invoice/update', auth.verifyToken, (req, res) => {
         controller.update(req.body)
             .then(invoice => {
                 console.log(invoice);
@@ -42,7 +43,7 @@ module.exports.invoice = (app) => {
             });
     });
 
-    app.post('/invoice/createfromorder', (req, res) => {
+    app.post('/invoice/createfromorder', auth.verifyToken, (req, res) => {
         controller.createFromOrder(req.body)
             .then(invoice => {
                 console.log(invoice);
@@ -54,7 +55,7 @@ module.exports.invoice = (app) => {
             });
     });
 
-    app.post('/invoice/delete', (req, res) => {
+    app.post('/invoice/delete', auth.verifyToken, (req, res) => {
         controller.delete(req.body.division, req.body.invoiceNumber)
             .then(success => {
                 res.send(success);
