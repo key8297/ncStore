@@ -45,10 +45,11 @@ module.exports.item = (app) => {
         });
     });
 
-    app.get('/item/image', auth.verifyToken, (req, res) => {
+    app.get('/item/image', (req, res) => {
         let item = req.param('item');
         let large = req.param('large');
-        controller.image(req.body, req.user.division, large)
+        let division = req.param('division');
+        controller.image(item, division, large)
         .then(success => {
             res.send(success);          
         })

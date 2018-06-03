@@ -42,31 +42,34 @@ class Item extends React.Component {
     }
 
     getImage(){
+        let url = '/item/image?division=' + this.state.user.division + '&item=5ae80969a017b21d20f2f82a&large=1';
         axios({
-            url:'/item/image?item=5ae80969a017b21d20f2f82a&large=1',
-            headers: {
-                'content-Type': 'application/json',
-                authorization: 'bearer ' + this.state.token
-            }
+            url
+            // headers: {
+            //     'content-Type': 'application/json',
+            //     authorization: 'bearer ' + this.state.token
+            // }
         })
         .then(response => {
-            this.setState({image: response.data.image})
+            this.setState({image: response.data})
         })
-        .catch(err => {});
+        .catch(err => {
+            console.log('GetImage error: ', err)
+        });
 
     }
 
     render() {
-        let data = this.state.data;
+        //let data = this.state.data;
 
-        console.log(data);
+        console.log('Image ', this.state.image);
 
         return (
             <div>
                 {/* <button onClick={() => this.addItem()}  >Add Item</button>
                 <input type='text' style={{ color: 'green', width: '500px' }} readOnly='readOnly' value={this.state.item.code} /> */}
 
-                <img src={this.image} />
+                <img src={this.state.image} />
             </div>
         );
     }
