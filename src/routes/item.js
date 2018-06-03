@@ -44,4 +44,18 @@ module.exports.item = (app) => {
             res.status(400).send(`Error: ${error}`);
         });
     });
+
+    app.get('/item/image', auth.verifyToken, (req, res) => {
+        let item = req.param('item');
+        let large = req.param('large');
+        controller.image(req.body, req.user.division, large)
+        .then(success => {
+            res.send(success);          
+        })
+        .catch(error => {
+            res.status(400).send(`Error: ${error}`);
+        });
+    });
+
+
 }

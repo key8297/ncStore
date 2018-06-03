@@ -49,7 +49,8 @@ class Signup extends React.Component {
             },
             selectedFile: {},
             items: [],
-            categories: []
+            categories: [],
+            token: ''
         }
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
@@ -79,7 +80,7 @@ class Signup extends React.Component {
                         id: user.data.mainDivision
                     })
                     .then(division => {
-                        this.setState({ division: division.data })
+                        this.setState({ division: division.data.token })
                     });
             });
     }
@@ -89,6 +90,10 @@ class Signup extends React.Component {
             {
                 email: this.state.user.email,
                 password: this.state.user.password
+            })
+            .then(response => {
+                console.log(response);
+                this.setState({token:response.data.token});
             });
     }
 
@@ -239,7 +244,16 @@ class Signup extends React.Component {
 
     retrieveItem() {
         let body = { division: '5adc0032dd1e8a2814ff2cb0', category: "5ae806458ff77628c42271a8" };
-        axios.post('http://localhost:8000/item/search?thumnail=1', body)
+        axios(
+            {
+                method: 'POST',
+                url: 'http://localhost:8000/item/search?thumnail=1', 
+                headers: {
+                    'content-Type': 'application/json',
+                    authorization: 'bearer ' + this.state.token
+                },
+                data:body
+            })
             .then((response) => {
                 let items = response.data;
                 let collection = [];

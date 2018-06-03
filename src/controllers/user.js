@@ -18,7 +18,8 @@ class UserController{
                 .then(user => {
                     let token = auth.sign({
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        division: user.mainDivision
                     });
                     deferred.resolve({token});
                 });
@@ -35,9 +36,13 @@ class UserController{
                 if(user.password === password){
                     let token = auth.sign({
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        division: user.mainDivision
                     });
-                    deferred.resolve({token});
+                    deferred.resolve({
+                        token,
+                        division: user.mainDivision
+                    });
                 }
                 else{
                     deferred.reject('Invalid password');    

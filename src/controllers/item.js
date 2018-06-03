@@ -76,6 +76,16 @@ class ItemController {
             });
         return deferred.promise;
     }
+
+    image(item, division, large) {
+        let deferred = q.defer();
+        let field = (large)? 'largePhoto': 'thumnail';
+        Item.findOne({division:division, _id:item._id}. field)
+        .then(image => {
+            deferred.resolve('data:image/gif;base64,' + image);
+        });
+        return deferred.promise;
+    }
 }
 
 module.exports = ItemController;

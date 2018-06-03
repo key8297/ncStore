@@ -14,7 +14,7 @@ module.exports = {
             const bearerToken = bearer[1];
             
             jwt.verify(bearerToken, secret, (err, payload) => {
-                if(payload !== 'undefined'){
+                if(payload){
                     req.token = bearerToken;
                     req.user = payload;
                     next();

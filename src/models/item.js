@@ -32,6 +32,10 @@ var itemSchema = new Schema({
   largePhoto: {
     type: String
   },
+  images:[],
+  sizes:[],
+  colors:[],
+  similarItems:[],
   largePhotoName: String
 });
 
