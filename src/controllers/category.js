@@ -23,7 +23,7 @@ class CategoryController {
 
     retrieve(filter) {
         let deferred = q.defer();
-        Category.find(filter)
+        Category.find(filter).select("-largePhoto, -thumnail")
             .then(categories => {
                 deferred.resolve(categories);
             });
@@ -80,6 +80,16 @@ class CategoryController {
                         })
                 }
             });
+        return deferred.promise;
+    }
+
+    image(division, category, large) {
+        let deferred = q.defer();
+        let field = (large)? 'largePhoto': 'thumnail';
+        Category.findOne({_id:category},field)
+        .then(category => {
+            deferred.resolve(category[field]);
+        });
         return deferred.promise;
     }
 }

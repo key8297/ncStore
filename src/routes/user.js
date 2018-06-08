@@ -11,7 +11,9 @@ module.exports.user = (app) => {
 
     app.post('/login', (req, res) => {
         controller.login(req.body.email, req.body.password)
-            .then(userInfo => res.send(userInfo))
+            .then(userInfo => 
+                res.send(userInfo)
+            )
             .catch(error => res.status(721).send(`Error: ${error}`))
     });
 }

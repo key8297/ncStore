@@ -77,12 +77,12 @@ class ItemController {
         return deferred.promise;
     }
 
-    image(item, division, large) {
+    image(division, item, large) {
         let deferred = q.defer();
         let field = (large)? 'largePhoto': 'thumnail';
-        Item.findOne({division:division, _id:item._id}. field)
-        .then(image => {
-            deferred.resolve('data:image/gif;base64,' + image);
+        Item.findOne({_id:item},field)
+        .then(item => {
+            deferred.resolve(item[field]);
         });
         return deferred.promise;
     }

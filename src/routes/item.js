@@ -6,13 +6,13 @@ const auth = require('../auth/auth');
 module.exports.item = (app) => {
     let controller = new ItemController();
 
-    app.post('/item/create', auth.verifyToken, (req, res) => {3
+    app.post('/item/create', auth.verifyToken, (req, res) => {
         controller.create(req.body)
             .then(item => {
                 console.log(item);
                 res.send(item);
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log(error);
                 res.status(400).send(`Error: ${error}`)
             });
@@ -20,12 +20,12 @@ module.exports.item = (app) => {
 
     app.post('/item/search', auth.verifyToken, (req, res) => {
         controller.retrieve(req.body, req.query)
-            .then(items => 
+            .then(items =>
                 res.send(items)
             )
             .catch(
-                error => 
-                res.status(400).send(`Error: ${error}`)
+                error =>
+                    res.status(400).send(`Error: ${error}`)
             );
     });
 
@@ -37,24 +37,33 @@ module.exports.item = (app) => {
 
     app.post('/item/delete', auth.verifyToken, (req, res) => {
         controller.delete(req.body)
-        .then(success => {
-            res.send(success);          
-        })
-        .catch(error => {
-            res.status(400).send(`Error: ${error}`);
-        });
+            .then(success => {
+                res.send(success);
+            })
+            .catch(error => {
+                res.status(400).send(`Error: ${error}`);
+            });
     });
 
-    app.get('/item/image', auth.verifyToken, (req, res) => {
-        let item = req.param('item');
-        let large = req.param('large');
-        controller.image(req.body, req.user.division, large)
-        .then(success => {
-            res.send(success);          
-        })
-        .catch(error => {
-            res.status(400).send(`Error: ${error}`);
-        });
+    app.get('/item/image', (req, res) => {
+        let item = req.query.item;
+        let large = req.query.large;
+        //let division = req.user.division;
+        let division;
+        controller.image(division, item, large)
+            .then(success => {
+
+                let img = new Buffer(success, 'base64');
+
+                res.writeHead(200, {
+                    'Content-Type': 'image/png',
+                    'Content-Length': img.length
+                });
+                res.end(img);
+            })
+            .catch(error => {
+                res.status(400).send(`Error: ${error}`);
+            });
     });
 
 
