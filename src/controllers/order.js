@@ -24,7 +24,8 @@ class OrderController {
             .then((orderNumber) => {
                 order = Object.assign(new Order(), calculateOrder(order), {orderNumber});
                 order.save()
-                    .then(order => deferred.resolve(order));
+                    .then(order => deferred.resolve(order))
+                    .catch(err => console.log('Error on save order', err));
             });
 
         return deferred.promise;

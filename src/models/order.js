@@ -9,7 +9,9 @@ var orderLineSchema = new Schema({
     item: String,
     quantity: Number,
     price: Number,
-    total: Number
+    total: Number,
+    color: String,
+    size: String
   });
 
 var orderSchema = new Schema({
@@ -28,6 +30,7 @@ var orderSchema = new Schema({
     },
     email: String,
     address: String,
+    tel: String,
     lines:[orderLineSchema],
     total: Number,
     status: {
