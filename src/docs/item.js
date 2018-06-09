@@ -52,7 +52,9 @@ class Item extends React.Component {
             this.setState({image: response.data})
             return response.data;
         })
-        .catch(err => {});
+        .catch(err => {
+            console.log('GetImage error: ', err)
+        });
 
     }
 

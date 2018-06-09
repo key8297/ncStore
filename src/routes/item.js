@@ -1,6 +1,6 @@
 'use strict';
-let ItemController = require('./../controllers/item')
-const ObjectID = require('mongodb').ObjectID;
+let ItemController = require('./../controllers/item');
+//const ObjectID = require('mongodb').ObjectID;
 const auth = require('../auth/auth');
 
 module.exports.item = (app) => {
@@ -46,6 +46,7 @@ module.exports.item = (app) => {
     });
 
     app.get('/item/image', (req, res) => {
+
         let item = req.query.item;
         let large = req.query.large;
         //let division = req.user.division;
@@ -65,6 +66,5 @@ module.exports.item = (app) => {
                 res.status(400).send(`Error: ${error}`);
             });
     });
-
 
 }
