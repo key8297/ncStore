@@ -22,6 +22,7 @@ var invoiceLineSchema = new Schema({
 }, { _id: false });
 
 var invoiceSchema = new Schema({
+    invoiceDate: Date,
     division: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, "Mandatory: Division"]

@@ -42,6 +42,18 @@ module.exports.order = (app) => {
         });
     });
 
+    app.post('/order/confirm', auth.verifyToken, (req, res) => {
+        controller.confirm(req.body)
+        .then(order => {
+            console.log(order);
+            res.send(order);
+        })
+        .catch(error =>{
+            console.log(error);
+            res.status(400).send(`Error: ${error}`)
+        });
+    });
+
     app.post('/order/delete', auth.verifyToken, (req, res) => {
         controller.delete(req.body.division, req.body.orderNumber)
         .then(success => {

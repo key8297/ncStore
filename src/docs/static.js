@@ -7,6 +7,9 @@ const static = (app) => {
     app.get('/docs/test', (req, res) => {
         res.sendFile(path.join(__dirname + '/react.html'));
     });
+    app.get('/docs/orders', (req, res) => {
+        res.sendFile(path.join(__dirname + '/orders.html'));
+    });
 
 }
 

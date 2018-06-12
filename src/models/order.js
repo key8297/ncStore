@@ -15,6 +15,8 @@ var orderLineSchema = new Schema({
   });
 
 var orderSchema = new Schema({
+    orderDate:  Date,
+    invoiceDate: Date,
     orderNumber: {
       type: String,
       required: [true, "Mandatory: Order Number"],

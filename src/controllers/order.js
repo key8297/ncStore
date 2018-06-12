@@ -39,6 +39,28 @@ class OrderController {
         return deferred.promise;
     }
 
+    confirm(_id){
+        let deferred = q.defer();
+        Order.findOne({ _id })
+            .then(current => {
+                if (!current) {
+                    deferred.reject("[Update Order] Record not found.");
+                }
+                else {
+                    if (current.status == 'Completed' || current.status == 'Comfirmed') {
+                        deferred.reject(`[Update Order] completed/confirmed. ${order.orderNumber}`);
+                    }
+                    else {
+                        let data = Object.assign(current, {status:'Confirmed'});
+                        data.save()
+                            .then(order => deferred.resolve(order));
+                    }
+                }
+            });
+
+        return deferred.promise;
+    }
+
     update(order) {
         let deferred = q.defer();
         Order.findOne({ division: order.division, _id: order._id })
